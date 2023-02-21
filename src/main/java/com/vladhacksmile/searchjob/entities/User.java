@@ -1,23 +1,25 @@
 package com.vladhacksmile.searchjob.entities;
 
-
-import javax.persistence.*;
+import com.vladhacksmile.searchjob.enums.UserRole;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.*;
 import java.util.Set;
 
 @NoArgsConstructor
 @Setter
 @Getter
-@Entity
-@Table(name = "applicant")
-public class Applicant {
 
+@Entity
+@Table(name = "user")
+public class User {
     @Id
     @GeneratedValue
     private Long id;
+
+    private UserRole role;
 
     private String name;
 
@@ -31,16 +33,18 @@ public class Applicant {
 
     private String mail;
 
-    @OneToMany(targetEntity = Resume.class, mappedBy = "applicant", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(targetEntity = Resume.class, mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Resume> resume;
+    @OneToMany(targetEntity = Vacancy.class, mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<Vacancy> vacancy;
 
-    public Applicant(String name, String surname, String patronymic, int age, String number, String mail, Set<Resume> resume) {
+    public User(UserRole role, String name, String surname, String patronymic, int age, String number, String mail) {
+        this.role = role;
         this.name = name;
         this.surname = surname;
         this.patronymic = patronymic;
         this.age = age;
         this.number = number;
         this.mail = mail;
-        this.resume = resume;
     }
 }

@@ -1,9 +1,7 @@
 package com.vladhacksmile.searchjob.controller;
 
-import com.vladhacksmile.searchjob.dto.JobDTO;
 import com.vladhacksmile.searchjob.dto.ResumeDTO;
 import com.vladhacksmile.searchjob.entities.Resume;
-import com.vladhacksmile.searchjob.entities.Vacancy;
 import com.vladhacksmile.searchjob.service.ResumeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
