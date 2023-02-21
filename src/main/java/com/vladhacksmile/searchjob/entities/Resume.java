@@ -19,12 +19,14 @@ public class Resume {
     private Long id;
 
     private String specialization;
+    private String description;
 
     @ManyToOne
     @JoinColumn(name = "applicant_id")
     private Applicant applicant;
 
-    public Resume(String specialization, Applicant applicant) {
+    public Resume(String specialization, String description, Applicant applicant) {
+        this.description = description;
         this.specialization = specialization;
         this.applicant = applicant;
     }

@@ -2,6 +2,10 @@ package com.vladhacksmile.searchjob.controller;
 
 import com.vladhacksmile.searchjob.dto.JobDTO;
 import com.vladhacksmile.searchjob.dto.ResumeDTO;
+import com.vladhacksmile.searchjob.entities.Resume;
+import com.vladhacksmile.searchjob.entities.Vacancy;
+import com.vladhacksmile.searchjob.service.ResumeService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,18 +13,22 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/resume")
 public class ResumeController {
+    @Autowired
+    ResumeService resumeService;
     @GetMapping("/{id}")
-    public ResponseEntity<?> getResume(@PathVariable long id) {
-        return new ResponseEntity<>("", HttpStatus.OK);
+    public Resume getResume(@PathVariable long id) {
+        return resumeService.getResumeById(id);
     }
 
     @PostMapping
     public ResponseEntity<?> createResume(@RequestBody ResumeDTO resumeDTO) {
-        return new ResponseEntity<>("", HttpStatus.OK);
+        resumeService.addResume(resumeDTO);
+        return new ResponseEntity<>("Resume created!", HttpStatus.OK);
     }
 
     @PutMapping
     public ResponseEntity<?> updateResume(@RequestBody ResumeDTO resumeDTO) {
-        return new ResponseEntity<>("", HttpStatus.OK);
+        resumeService.updateResume(resumeDTO);
+        return new ResponseEntity<>("Resume updated!", HttpStatus.OK);
     }
 }

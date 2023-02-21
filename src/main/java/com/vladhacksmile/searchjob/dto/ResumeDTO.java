@@ -8,4 +8,6 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class ResumeDTO {
+    private String specialization;
+    private String description;
 }
