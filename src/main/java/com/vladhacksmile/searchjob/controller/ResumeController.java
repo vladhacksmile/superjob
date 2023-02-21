@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/resume")
@@ -44,7 +45,7 @@ public class ResumeController {
     }
 
     @GetMapping("/review/{id}")
-    public List<Vacancy> getJobReview(@PathVariable long id) {
+    public Set<Vacancy> getJobReview(@PathVariable long id) {
         return resumeService.reviewing(id);
     }
 }

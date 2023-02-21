@@ -94,10 +94,10 @@ public class JobService {
 
     public Set<Resume> reviewing(Long id) {
         Vacancy vacancy = getVacancyById(id);
-        Set<Resume> resumeList = new HashSet<>();
+        Set<Resume> resumeSet = new HashSet<>();
         if (vacancy != null) {
-           resumeList = vacancy.getResume();
+            resumeSet = vacancy.getResume();
         }
-        return resumeList;
+        return resumeSet;
     }
 }

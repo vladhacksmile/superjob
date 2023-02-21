@@ -70,12 +70,12 @@ public class ResumeService {
         return vacancyResult;
     }
 
-    public List<Vacancy> reviewing(Long id) {
+    public Set<Vacancy> reviewing(Long id) {
         Resume resume = getResumeById(id);
-        List<Vacancy> vacancyList = new LinkedList<>();
+        Set<Vacancy> vacancySet = new HashSet<>();
         if (resume != null) {
-            vacancyList = (List<Vacancy>) resume.getVacancy();
+            vacancySet = resume.getVacancy();
         }
-        return vacancyList;
+        return vacancySet;
     }
 }
