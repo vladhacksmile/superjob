@@ -26,8 +26,11 @@ public class JobController {
 
     @PostMapping
     public ResponseEntity<?> createJob(@RequestBody JobDTO jobDTO) {
-        jobService.addVacancy(jobDTO);
-        return new ResponseEntity<>("Job created!", HttpStatus.OK);
+        if (jobService.addVacancy(jobDTO)) {
+            return new ResponseEntity<>("Job created!", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Job didn't created!", HttpStatus.OK);
+        }
     }
 
     @PutMapping
@@ -36,7 +39,7 @@ public class JobController {
         return new ResponseEntity<>("Job updated!", HttpStatus.OK);
     }
 
-    @PostMapping
+    @PostMapping("/search")
     public List<Resume> searchVacancy(@RequestBody SearchDTO searchDTO) {
         return jobService.searchResume(searchDTO);
     }

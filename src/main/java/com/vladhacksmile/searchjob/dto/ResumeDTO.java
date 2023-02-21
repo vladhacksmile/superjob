@@ -8,6 +8,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class ResumeDTO {
+    private Long userId;
     private String specialization;
     private String description;
 }

@@ -19,7 +19,7 @@ public class Resume {
     @Id
     @GeneratedValue
     private Long id;
-    private ResumeStatus status;
+    private ResumeStatus status = ResumeStatus.REVIEW;
     private String specialization;
     private String description;
     @ManyToOne

@@ -3,6 +3,7 @@ package com.vladhacksmile.searchjob.controller;
 import com.vladhacksmile.searchjob.dto.ResumeDTO;
 import com.vladhacksmile.searchjob.dto.SearchDTO;
 import com.vladhacksmile.searchjob.entities.Resume;
+import com.vladhacksmile.searchjob.entities.Vacancy;
 import com.vladhacksmile.searchjob.service.ResumeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,8 +25,11 @@ public class ResumeController {
 
     @PostMapping
     public ResponseEntity<?> createResume(@RequestBody ResumeDTO resumeDTO) {
-        resumeService.addResume(resumeDTO);
-        return new ResponseEntity<>("Resume created!", HttpStatus.OK);
+        if (resumeService.addResume(resumeDTO)) {
+            return new ResponseEntity<>("Resume created!", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Resume didn't create!", HttpStatus.OK);
+        }
     }
 
     @PutMapping
@@ -34,7 +38,7 @@ public class ResumeController {
         return new ResponseEntity<>("Resume updated!", HttpStatus.OK);
     }
 
-    @PostMapping
+    @PostMapping("/search")
     public List<Vacancy> searchVacancy(@RequestBody SearchDTO searchDTO) {
         return resumeService.searchVacancy(searchDTO);
     }

@@ -4,8 +4,10 @@ import com.vladhacksmile.searchjob.dto.JobDTO;
 import com.vladhacksmile.searchjob.dto.ResumeDTO;
 import com.vladhacksmile.searchjob.dto.SearchDTO;
 import com.vladhacksmile.searchjob.entities.Resume;
+import com.vladhacksmile.searchjob.entities.User;
 import com.vladhacksmile.searchjob.entities.Vacancy;
 import com.vladhacksmile.searchjob.repository.ResumeRepository;
+import com.vladhacksmile.searchjob.repository.UserRepository;
 import com.vladhacksmile.searchjob.repository.VacancyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +17,10 @@ import java.util.*;
 @Service
 public class ResumeService {
     @Autowired
-    private ResumeRepository resumeRepository;
+    ResumeRepository resumeRepository;
+
+    @Autowired
+    UserRepository userRepository;
 
     @Autowired
     VacancyRepository vacancyRepository;
@@ -29,11 +34,18 @@ public class ResumeService {
         }
     }
 
-    public void addResume(ResumeDTO resumeDTO) {
+    public boolean addResume(ResumeDTO resumeDTO) {
         Resume resume = new Resume();
+        Optional<User> optionalUser = userRepository.findById(resumeDTO.getUserId());
+        if(optionalUser.isPresent()) {
+            resume.setUser(optionalUser.get());
+        } else {
+            return false;
+        }
         resume.setSpecialization(resumeDTO.getSpecialization());
         resume.setDescription(resume.getDescription());
         resumeRepository.save(resume);
+        return true;
     }
 
     public void updateResume(ResumeDTO resumeDTO) {
