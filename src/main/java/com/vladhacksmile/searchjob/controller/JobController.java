@@ -43,4 +43,9 @@ public class JobController {
     public List<Resume> searchVacancy(@RequestBody SearchDTO searchDTO) {
         return jobService.searchResume(searchDTO);
     }
+
+    @GetMapping("/review/{id}")
+    public List<Resume> getJobReview(@PathVariable long id) {
+        return jobService.reviewing(id);
+    }
 }

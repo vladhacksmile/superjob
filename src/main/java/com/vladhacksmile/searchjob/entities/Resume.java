@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Set;
+
 
 @NoArgsConstructor
 @Setter
@@ -22,7 +24,10 @@ public class Resume {
     private ResumeStatus status = ResumeStatus.REVIEW;
     private String specialization;
     private String description;
+
+    @ManyToMany
+    private Set<Vacancy> vacancy;
     @ManyToOne
-    @JoinColumn(name = "applicant_id")
+    @JoinColumn(name = "user_id")
     private User user;
 }

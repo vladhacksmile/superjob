@@ -13,7 +13,7 @@ import java.util.Set;
 @Getter
 
 @Entity
-@Table(name = "searchjob_users")
+@Table(name = "user")
 public class User {
     @Id
     @GeneratedValue

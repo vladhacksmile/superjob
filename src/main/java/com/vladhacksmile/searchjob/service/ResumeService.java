@@ -70,4 +70,13 @@ public class ResumeService {
         }
         return vacancyResult;
     }
+
+    public List<Vacancy> reviewing(Long id) {
+        Resume resume = getResumeById(id);
+        List<Vacancy> vacancyList = new LinkedList<>();
+        if (resume != null) {
+            vacancyList = (List<Vacancy>) resume.getVacancy();
+        }
+        return vacancyList;
+    }
 }

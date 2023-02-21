@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Set;
+
 @NoArgsConstructor
 @Setter
 @Getter
@@ -23,8 +25,11 @@ public class Vacancy {
 
     private String information;
 
+   @ManyToMany
+    private Set<Resume> resume;
+
     @ManyToOne
-    @JoinColumn(name = "employer_id")
+    @JoinColumn(name = "user_id")
     @JsonIgnore
     private User user;
 

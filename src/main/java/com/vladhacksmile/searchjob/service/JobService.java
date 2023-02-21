@@ -73,4 +73,13 @@ public class JobService {
         }
         return resumesResult;
     }
+
+    public List<Resume> reviewing(Long id) {
+        Vacancy vacancy = getVacancyById(id);
+        List<Resume> resumeList = new LinkedList<>();
+        if (vacancy != null) {
+           resumeList = (List<Resume>) vacancy.getResume();
+        }
+        return resumeList;
+    }
 }
