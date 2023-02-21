@@ -12,9 +12,7 @@ import com.vladhacksmile.searchjob.repository.VacancyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class JobService {
@@ -94,11 +92,11 @@ public class JobService {
         return resumesResult;
     }
 
-    public List<Resume> reviewing(Long id) {
+    public Set<Resume> reviewing(Long id) {
         Vacancy vacancy = getVacancyById(id);
-        List<Resume> resumeList = new LinkedList<>();
+        Set<Resume> resumeList = new HashSet<>();
         if (vacancy != null) {
-           resumeList = (List<Resume>) vacancy.getResume();
+           resumeList = vacancy.getResume();
         }
         return resumeList;
     }
