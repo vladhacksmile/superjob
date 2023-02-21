@@ -1,11 +1,8 @@
 package com.vladhacksmile.searchjob.repository;
 
-import com.vladhacksmile.searchjob.entities.User;
-import com.vladhacksmile.searchjob.entities.Vacancy;
+import com.vladhacksmile.searchjob.entities.Account;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.Optional;
-
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface UserRepository extends JpaRepository<Account, Long> {
     boolean existsByMail(String mail);
 }

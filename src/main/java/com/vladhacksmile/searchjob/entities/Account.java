@@ -15,7 +15,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "account")
-public class User {
+public class Account {
     @Id
     @GeneratedValue
     private Long id;
@@ -34,14 +34,14 @@ public class User {
 
     private String mail;
 
-    @OneToMany(targetEntity = Resume.class, mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(targetEntity = Resume.class, mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonIgnore
     private Set<Resume> resume;
-    @OneToMany(targetEntity = Vacancy.class, mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(targetEntity = Vacancy.class, mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonIgnore
     private Set<Vacancy> vacancy;
 
-    public User(UserRole role, String name, String surname, String patronymic, int age, String number, String mail) {
+    public Account(UserRole role, String name, String surname, String patronymic, int age, String number, String mail, Set<Resume> resume, Set<Vacancy> vacancy) {
         this.role = role;
         this.name = name;
         this.surname = surname;
@@ -49,5 +49,7 @@ public class User {
         this.age = age;
         this.number = number;
         this.mail = mail;
+        this.resume = resume;
+        this.vacancy = vacancy;
     }
 }

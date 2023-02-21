@@ -32,13 +32,13 @@ public class Resume {
     @ManyToOne
     @JsonIgnore
     @JoinColumn(name = "account_id")
-    private User user;
+    private Account account;
 
-    public Resume(ResumeStatus status, String specialization, String description, Set<Vacancy> vacancy, User user) {
+    public Resume(ResumeStatus status, String specialization, String description, Set<Vacancy> vacancy, Account account) {
         this.status = status;
         this.specialization = specialization;
         this.description = description;
         this.vacancy = vacancy;
-        this.user = user;
+        this.account = account;
     }
 }

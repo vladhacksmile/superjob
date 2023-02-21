@@ -3,8 +3,8 @@ package com.vladhacksmile.searchjob.service;
 import com.vladhacksmile.searchjob.dto.JobDTO;
 import com.vladhacksmile.searchjob.dto.ResponseVacancyDTO;
 import com.vladhacksmile.searchjob.dto.SearchDTO;
+import com.vladhacksmile.searchjob.entities.Account;
 import com.vladhacksmile.searchjob.entities.Resume;
-import com.vladhacksmile.searchjob.entities.User;
 import com.vladhacksmile.searchjob.entities.Vacancy;
 import com.vladhacksmile.searchjob.repository.ResumeRepository;
 import com.vladhacksmile.searchjob.repository.UserRepository;
@@ -45,9 +45,9 @@ public class JobService {
 
     public boolean addVacancy(JobDTO jobDTO) {
         Vacancy vacancy = new Vacancy();
-        Optional<User> optionalUser = userRepository.findById(jobDTO.getUserId());
+        Optional<Account> optionalUser = userRepository.findById(jobDTO.getUserId());
         if(optionalUser.isPresent()) {
-            vacancy.setUser(optionalUser.get());
+            vacancy.setAccount(optionalUser.get());
         } else {
             return false;
         }

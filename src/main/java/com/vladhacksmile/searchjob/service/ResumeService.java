@@ -1,10 +1,9 @@
 package com.vladhacksmile.searchjob.service;
 
-import com.vladhacksmile.searchjob.dto.JobDTO;
 import com.vladhacksmile.searchjob.dto.ResumeDTO;
 import com.vladhacksmile.searchjob.dto.SearchDTO;
+import com.vladhacksmile.searchjob.entities.Account;
 import com.vladhacksmile.searchjob.entities.Resume;
-import com.vladhacksmile.searchjob.entities.User;
 import com.vladhacksmile.searchjob.entities.Vacancy;
 import com.vladhacksmile.searchjob.repository.ResumeRepository;
 import com.vladhacksmile.searchjob.repository.UserRepository;
@@ -36,9 +35,9 @@ public class ResumeService {
 
     public boolean addResume(ResumeDTO resumeDTO) {
         Resume resume = new Resume();
-        Optional<User> optionalUser = userRepository.findById(resumeDTO.getUserId());
+        Optional<Account> optionalUser = userRepository.findById(resumeDTO.getUserId());
         if(optionalUser.isPresent()) {
-            resume.setUser(optionalUser.get());
+            resume.setAccount(optionalUser.get());
         } else {
             return false;
         }
