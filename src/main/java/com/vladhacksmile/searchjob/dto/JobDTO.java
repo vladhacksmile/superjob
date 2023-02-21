@@ -8,4 +8,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class JobDTO {
+    private int salary;
+    private String name;
+    private String information;
 }
