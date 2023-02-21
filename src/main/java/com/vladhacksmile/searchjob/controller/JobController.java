@@ -1,6 +1,7 @@
 package com.vladhacksmile.searchjob.controller;
 
 import com.vladhacksmile.searchjob.dto.JobDTO;
+import com.vladhacksmile.searchjob.dto.ResponseVacancyDTO;
 import com.vladhacksmile.searchjob.dto.SearchDTO;
 import com.vladhacksmile.searchjob.entities.Resume;
 import com.vladhacksmile.searchjob.entities.Vacancy;
@@ -37,6 +38,15 @@ public class JobController {
     public ResponseEntity<?> updateJob(@RequestBody JobDTO jobDTO) {
         jobService.updateVacancy(jobDTO);
         return new ResponseEntity<>("Job updated!", HttpStatus.OK);
+    }
+
+    @PostMapping("/response")
+    public ResponseEntity<?> responseJob(@RequestBody ResponseVacancyDTO responseVacancyDTO) {
+        if (jobService.responseVacancy(responseVacancyDTO)) {
+            return new ResponseEntity<>("Response vacancy sent!", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Response vacancy didn't send!", HttpStatus.OK);
+        }
     }
 
     @PostMapping("/search")

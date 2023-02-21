@@ -1,6 +1,7 @@
 package com.vladhacksmile.searchjob.service;
 
 import com.vladhacksmile.searchjob.dto.JobDTO;
+import com.vladhacksmile.searchjob.dto.ResponseVacancyDTO;
 import com.vladhacksmile.searchjob.dto.SearchDTO;
 import com.vladhacksmile.searchjob.entities.Resume;
 import com.vladhacksmile.searchjob.entities.User;
@@ -56,6 +57,15 @@ public class JobService {
         vacancy.setSalary(jobDTO.getSalary());
         vacancy.setInformation(jobDTO.getInformation());
         vacancyRepository.save(vacancy);
+    }
+
+    public boolean responseVacancy(ResponseVacancyDTO responseVacancyDTO) {
+        Vacancy vacancy = getVacancyById(responseVacancyDTO.getVacancyId());
+        if(vacancy == null) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     public List<Resume> searchResume(SearchDTO searchDTO) {
