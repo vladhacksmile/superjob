@@ -26,12 +26,12 @@ public class Vacancy {
     @ManyToOne
     @JoinColumn(name = "employer_id")
     @JsonIgnore
-    private Employer employer;
+    private User user;
 
-    public Vacancy(int salary, String name, String information, Employer employer) {
+    public Vacancy(int salary, String name, String information, User user) {
         this.salary = salary;
         this.name = name;
         this.information = information;
-        this.employer = employer;
+        this.user = user;
     }
 }
