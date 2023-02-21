@@ -43,7 +43,7 @@ public class ResumeService {
             return false;
         }
         resume.setSpecialization(resumeDTO.getSpecialization());
-        resume.setDescription(resume.getDescription());
+        resume.setDescription(resumeDTO.getDescription());
         resumeRepository.save(resume);
         return true;
     }
@@ -63,8 +63,7 @@ public class ResumeService {
         for(Vacancy vacancy: vacancyList) {
             if (vacancy.getName().contains(name)) {
                 vacancyResult.add(vacancy);
-            }
-            if (vacancy.getInformation().contains(name)) {
+            } else if (vacancy.getInformation().contains(name)) {
                 vacancyResult.add(vacancy);
             }
         }

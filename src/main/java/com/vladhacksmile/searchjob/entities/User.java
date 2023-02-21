@@ -4,6 +4,7 @@ import com.vladhacksmile.searchjob.enums.UserRole;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import net.minidev.json.annotate.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -13,7 +14,7 @@ import java.util.Set;
 @Getter
 
 @Entity
-@Table(name = "user")
+@Table(name = "account")
 public class User {
     @Id
     @GeneratedValue
@@ -34,8 +35,10 @@ public class User {
     private String mail;
 
     @OneToMany(targetEntity = Resume.class, mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonIgnore
     private Set<Resume> resume;
     @OneToMany(targetEntity = Vacancy.class, mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonIgnore
     private Set<Vacancy> vacancy;
 
     public User(UserRole role, String name, String surname, String patronymic, int age, String number, String mail) {

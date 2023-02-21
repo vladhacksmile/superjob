@@ -36,6 +36,15 @@ public class JobService {
         }
     }
 
+    public Resume getResumeById(long id) {
+        Optional<Resume> resumeOptional = resumeRepository.findById(id);
+        if(resumeOptional.isPresent()) {
+            return resumeOptional.get();
+        }  else {
+            return null;
+        }
+    }
+
     public boolean addVacancy(JobDTO jobDTO) {
         Vacancy vacancy = new Vacancy();
         Optional<User> optionalUser = userRepository.findById(jobDTO.getUserId());
@@ -64,6 +73,8 @@ public class JobService {
         if(vacancy == null) {
             return false;
         } else {
+            vacancy.getResume().add(getResumeById(responseVacancyDTO.getResumeId()));
+            vacancyRepository.save(vacancy);
             return true;
         }
     }
@@ -76,8 +87,7 @@ public class JobService {
         for(Resume resume: resumeList) {
             if (resume.getSpecialization().contains(name)) {
                 resumesResult.add(resume);
-            }
-            if (resume.getDescription().contains(name)) {
+            } else if (resume.getDescription().contains(name)) {
                 resumesResult.add(resume);
             }
         }

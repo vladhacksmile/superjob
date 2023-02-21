@@ -14,7 +14,6 @@ import java.util.Set;
 @Entity
 @Table(name = "vacancy")
 public class Vacancy {
-
     @Id
     @GeneratedValue
     private Long id;
@@ -24,19 +23,20 @@ public class Vacancy {
     private String name;
 
     private String information;
-
-   @ManyToMany
+    @ManyToMany
+    @JsonIgnore
     private Set<Resume> resume;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "account_id")
     @JsonIgnore
     private User user;
 
-    public Vacancy(int salary, String name, String information, User user) {
+    public Vacancy(int salary, String name, String information, Set<Resume> resume, User user) {
         this.salary = salary;
         this.name = name;
         this.information = information;
+        this.resume = resume;
         this.user = user;
     }
 }

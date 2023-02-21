@@ -6,6 +6,7 @@ import com.vladhacksmile.searchjob.enums.ResumeStatus;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import net.minidev.json.annotate.JsonIgnore;
 
 import java.util.Set;
 
@@ -26,8 +27,18 @@ public class Resume {
     private String description;
 
     @ManyToMany
+    @JsonIgnore
     private Set<Vacancy> vacancy;
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JsonIgnore
+    @JoinColumn(name = "account_id")
     private User user;
+
+    public Resume(ResumeStatus status, String specialization, String description, Set<Vacancy> vacancy, User user) {
+        this.status = status;
+        this.specialization = specialization;
+        this.description = description;
+        this.vacancy = vacancy;
+        this.user = user;
+    }
 }
