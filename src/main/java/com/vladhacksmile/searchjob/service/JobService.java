@@ -1,11 +1,15 @@
 package com.vladhacksmile.searchjob.service;
 
+import com.vladhacksmile.searchjob.dto.ChangeStatusDTO;
 import com.vladhacksmile.searchjob.dto.JobDTO;
 import com.vladhacksmile.searchjob.dto.ResponseVacancyDTO;
 import com.vladhacksmile.searchjob.dto.SearchDTO;
 import com.vladhacksmile.searchjob.entities.Account;
+import com.vladhacksmile.searchjob.entities.Response;
 import com.vladhacksmile.searchjob.entities.Resume;
 import com.vladhacksmile.searchjob.entities.Vacancy;
+import com.vladhacksmile.searchjob.enums.ResumeStatus;
+import com.vladhacksmile.searchjob.repository.ResponseRepository;
 import com.vladhacksmile.searchjob.repository.ResumeRepository;
 import com.vladhacksmile.searchjob.repository.UserRepository;
 import com.vladhacksmile.searchjob.repository.VacancyRepository;
@@ -23,13 +27,16 @@ public class JobService {
     UserRepository userRepository;
 
     @Autowired
-    private ResumeRepository resumeRepository;
+    ResumeRepository resumeRepository;
+
+    @Autowired
+    ResponseRepository responseRepository;
 
     public Vacancy getVacancyById(long id) {
         Optional<Vacancy> vacancyOptional = vacancyRepository.findById(id);
         if(vacancyOptional.isPresent()) {
             return vacancyOptional.get();
-        }  else {
+        } else {
             return null;
         }
     }
@@ -38,7 +45,7 @@ public class JobService {
         Optional<Resume> resumeOptional = resumeRepository.findById(id);
         if(resumeOptional.isPresent()) {
             return resumeOptional.get();
-        }  else {
+        } else {
             return null;
         }
     }
@@ -68,19 +75,20 @@ public class JobService {
 
     public boolean responseVacancy(ResponseVacancyDTO responseVacancyDTO) {
         Vacancy vacancy = getVacancyById(responseVacancyDTO.getVacancyId());
-        if(vacancy == null) {
+        Resume resume = getResumeById(responseVacancyDTO.getResumeId());
+        if(vacancy == null || resume == null) {
             return false;
         } else {
-            vacancy.getResume().add(getResumeById(responseVacancyDTO.getResumeId()));
-            vacancyRepository.save(vacancy);
+            Response response = new Response(resume, vacancy, ResumeStatus.REVIEW);
+            responseRepository.save(response);
             return true;
         }
     }
 
-    public List<Resume> searchResume(SearchDTO searchDTO) {
+    public Set<Resume> searchResume(SearchDTO searchDTO) {
         String name = searchDTO.getName();
-        List<Resume>  resumeList = (List<Resume>) resumeRepository.findAll();
-        List<Resume> resumesResult = new LinkedList<>();
+        List<Resume> resumeList = resumeRepository.findAll();
+        Set<Resume> resumesResult = new HashSet<>();
 
         for(Resume resume: resumeList) {
             if (resume.getSpecialization().contains(name)) {
@@ -92,12 +100,21 @@ public class JobService {
         return resumesResult;
     }
 
-    public Set<Resume> reviewing(Long id) {
+    public List<Response> reviewing(Long id) {
         Vacancy vacancy = getVacancyById(id);
-        Set<Resume> resumeSet = new HashSet<>();
-        if (vacancy != null) {
-            resumeSet = vacancy.getResume();
+        return responseRepository.findAllByVacancy(vacancy);
+    }
+
+    public boolean changeStatus(ChangeStatusDTO changeStatusDTO) {
+        Resume resume = getResumeById(changeStatusDTO.getResumeId());
+        Vacancy vacancy = getVacancyById(changeStatusDTO.getVacancyId());
+        if(resume != null && vacancy != null) {
+            Response response = responseRepository.findByVacancyAndResume(vacancy, resume);
+            response.setResumeStatus(changeStatusDTO.getResumeStatus());
+            responseRepository.save(response);
+            return true;
+        } else {
+            return false;
         }
-        return resumeSet;
     }
 }

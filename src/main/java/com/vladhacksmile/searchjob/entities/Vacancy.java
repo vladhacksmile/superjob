@@ -15,7 +15,8 @@ import java.util.Set;
 @Table(name = "vacancy")
 public class Vacancy {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
     private Long id;
 
     private int salary;
@@ -23,20 +24,15 @@ public class Vacancy {
     private String name;
 
     private String information;
-    @ManyToMany
-    @JsonIgnore
-    private Set<Resume> resume;
 
     @ManyToOne
     @JoinColumn(name = "account_id")
-    @JsonIgnore
     private Account account;
 
-    public Vacancy(int salary, String name, String information, Set<Resume> resume, Account account) {
+    public Vacancy(int salary, String name, String information, Account account) {
         this.salary = salary;
         this.name = name;
         this.information = information;
-        this.resume = resume;
         this.account = account;
     }
 }

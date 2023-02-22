@@ -17,7 +17,7 @@ import java.util.Set;
 @Table(name = "account")
 public class Account {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private UserRole role;
@@ -34,14 +34,14 @@ public class Account {
 
     private String mail;
 
-    @OneToMany(targetEntity = Resume.class, mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JsonIgnore
-    private Set<Resume> resume;
-    @OneToMany(targetEntity = Vacancy.class, mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JsonIgnore
-    private Set<Vacancy> vacancy;
+//    @OneToMany(targetEntity = Resume.class, mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+//    @JsonIgnore
+//    private Set<Resume> resume;
+//    @OneToMany(targetEntity = Vacancy.class, mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+//    @JsonIgnore
+//    private Set<Vacancy> vacancy;
 
-    public Account(UserRole role, String name, String surname, String patronymic, int age, String number, String mail, Set<Resume> resume, Set<Vacancy> vacancy) {
+    public Account(UserRole role, String name, String surname, String patronymic, int age, String number, String mail) {
         this.role = role;
         this.name = name;
         this.surname = surname;
@@ -49,7 +49,7 @@ public class Account {
         this.age = age;
         this.number = number;
         this.mail = mail;
-        this.resume = resume;
-        this.vacancy = vacancy;
+//        this.resume = resume;
+//        this.vacancy = vacancy;
     }
 }

@@ -2,6 +2,7 @@ package com.vladhacksmile.searchjob.controller;
 
 import com.vladhacksmile.searchjob.dto.ResumeDTO;
 import com.vladhacksmile.searchjob.dto.SearchDTO;
+import com.vladhacksmile.searchjob.entities.Response;
 import com.vladhacksmile.searchjob.entities.Resume;
 import com.vladhacksmile.searchjob.entities.Vacancy;
 import com.vladhacksmile.searchjob.service.ResumeService;
@@ -11,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Set;
 
 @RestController
 @RequestMapping("/api/resume")
@@ -45,7 +45,7 @@ public class ResumeController {
     }
 
     @GetMapping("/review/{id}")
-    public Set<Vacancy> getJobReview(@PathVariable long id) {
+    public List<Response> getJobReview(@PathVariable long id) {
         return resumeService.reviewing(id);
     }
 }

@@ -23,7 +23,7 @@ public class UserService {
         }
 
         Account account = new Account(registerDTO.getRole(), registerDTO.getName(), registerDTO.getSurname(), registerDTO.getPatronymic(),
-                registerDTO.getAge(), registerDTO.getNumber(), registerDTO.getMail(), new HashSet<>(), new HashSet<>());
+                registerDTO.getAge(), registerDTO.getNumber(), registerDTO.getMail());
 
         userRepository.save(account);
         return ResponseEntity.ok("User registered!");

@@ -3,8 +3,10 @@ package com.vladhacksmile.searchjob.service;
 import com.vladhacksmile.searchjob.dto.ResumeDTO;
 import com.vladhacksmile.searchjob.dto.SearchDTO;
 import com.vladhacksmile.searchjob.entities.Account;
+import com.vladhacksmile.searchjob.entities.Response;
 import com.vladhacksmile.searchjob.entities.Resume;
 import com.vladhacksmile.searchjob.entities.Vacancy;
+import com.vladhacksmile.searchjob.repository.ResponseRepository;
 import com.vladhacksmile.searchjob.repository.ResumeRepository;
 import com.vladhacksmile.searchjob.repository.UserRepository;
 import com.vladhacksmile.searchjob.repository.VacancyRepository;
@@ -23,6 +25,9 @@ public class ResumeService {
 
     @Autowired
     VacancyRepository vacancyRepository;
+
+    @Autowired
+    ResponseRepository responseRepository;;
 
     public Resume getResumeById(long id) {
         Optional<Resume> resumeOptional = resumeRepository.findById(id);
@@ -69,12 +74,9 @@ public class ResumeService {
         return vacancyResult;
     }
 
-    public Set<Vacancy> reviewing(Long id) {
+    public List<Response> reviewing(Long id) {
         Resume resume = getResumeById(id);
-        Set<Vacancy> vacancySet = new HashSet<>();
-        if (resume != null) {
-            vacancySet = resume.getVacancy();
-        }
-        return vacancySet;
+        List<Response> responses = responseRepository.findAllByResume(resume);
+        return responses;
     }
 }

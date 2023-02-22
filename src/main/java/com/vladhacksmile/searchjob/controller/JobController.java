@@ -1,8 +1,10 @@
 package com.vladhacksmile.searchjob.controller;
 
+import com.vladhacksmile.searchjob.dto.ChangeStatusDTO;
 import com.vladhacksmile.searchjob.dto.JobDTO;
 import com.vladhacksmile.searchjob.dto.ResponseVacancyDTO;
 import com.vladhacksmile.searchjob.dto.SearchDTO;
+import com.vladhacksmile.searchjob.entities.Response;
 import com.vladhacksmile.searchjob.entities.Resume;
 import com.vladhacksmile.searchjob.entities.Vacancy;
 import com.vladhacksmile.searchjob.service.JobService;
@@ -51,12 +53,21 @@ public class JobController {
     }
 
     @PostMapping("/search")
-    public List<Resume> searchVacancy(@RequestBody SearchDTO searchDTO) {
-        return jobService.searchResume(searchDTO);
+    public ResponseEntity<Set<Resume>> searchVacancy(@RequestBody SearchDTO searchDTO) {
+        return new ResponseEntity<>(jobService.searchResume(searchDTO), HttpStatus.OK);
     }
 
     @GetMapping("/review/{id}")
-    public Set<Resume> getJobReview(@PathVariable long id) {
+    public @ResponseBody List<Response> getJobReview(@PathVariable long id) {
         return jobService.reviewing(id);
+    }
+
+    @PostMapping("/status")
+    public ResponseEntity<?> changeStatus(@RequestBody  ChangeStatusDTO changeStatusDTO) {
+        if(jobService.changeStatus(changeStatusDTO)) {
+            return new ResponseEntity<>("Status changed!", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Status didn't change!", HttpStatus.OK);
+        }
     }
 }
