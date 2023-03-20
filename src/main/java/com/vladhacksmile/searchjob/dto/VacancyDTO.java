@@ -4,12 +4,18 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+
 @Getter
 @Setter
 @AllArgsConstructor
-public class JobDTO {
+public class VacancyDTO {
     private Long userId;
+    private Long vacancyId;
+    @Min(value = 0, message = "Salary should be greater than 0!")
     private int salary;
+    @NotEmpty(message = "Name should not be empty!")
     private String name;
     private String information;
 }

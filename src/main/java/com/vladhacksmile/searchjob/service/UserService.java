@@ -12,8 +12,11 @@ import java.util.HashSet;
 
 @Service
 public class UserService {
-    @Autowired
-    UserRepository userRepository;
+    final UserRepository userRepository;
+
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     public ResponseEntity<?> registerUser(@RequestBody RegisterDTO registerDTO) {
         if (userRepository.existsByMail(registerDTO.getMail())) {

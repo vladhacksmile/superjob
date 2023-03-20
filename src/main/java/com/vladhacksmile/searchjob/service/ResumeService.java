@@ -17,17 +17,20 @@ import java.util.*;
 
 @Service
 public class ResumeService {
-    @Autowired
-    ResumeRepository resumeRepository;
+    final ResumeRepository resumeRepository;
 
-    @Autowired
-    UserRepository userRepository;
+    final UserRepository userRepository;
 
-    @Autowired
-    VacancyRepository vacancyRepository;
+    final VacancyRepository vacancyRepository;
 
-    @Autowired
-    ResponseRepository responseRepository;
+    final ResponseRepository responseRepository;
+
+    public ResumeService(ResumeRepository resumeRepository, UserRepository userRepository, VacancyRepository vacancyRepository, ResponseRepository responseRepository) {
+        this.resumeRepository = resumeRepository;
+        this.userRepository = userRepository;
+        this.vacancyRepository = vacancyRepository;
+        this.responseRepository = responseRepository;
+    }
 
     public Resume getResumeById(long id) {
         Optional<Resume> resumeOptional = resumeRepository.findById(id);
@@ -43,26 +46,38 @@ public class ResumeService {
         Optional<Account> optionalUser = userRepository.findById(resumeDTO.getUserId());
         if(optionalUser.isPresent()) {
             resume.setAccount(optionalUser.get());
+            resume.setSpecialization(resumeDTO.getSpecialization());
+            resume.setDescription(resumeDTO.getDescription());
+            resumeRepository.save(resume);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean updateResume(ResumeDTO resumeDTO) {
+        Resume resume = getResumeById(resumeDTO.getResumeId());
+        if(resume != null) {
+            resume.setSpecialization(resumeDTO.getSpecialization());
+            resume.setDescription(resume.getDescription());
+            resumeRepository.save(resume);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean deleteResumeById(long id) {
+        Resume resume = getResumeById(id);
+        if(resume != null) {
+            resumeRepository.deleteById(id);
+            return true;
         } else {
             return false;
         }
-        resume.setSpecialization(resumeDTO.getSpecialization());
-        resume.setDescription(resumeDTO.getDescription());
-        resumeRepository.save(resume);
-        return true;
-    }
-
-    public void updateResume(ResumeDTO resumeDTO) {
-        Resume resume = new Resume();
-        resume.setSpecialization(resumeDTO.getSpecialization());
-        resume.setDescription(resume.getDescription());
-        resumeRepository.save(resume);
     }
 
     public List<Vacancy> searchVacancy(SearchDTO searchDTO) {
-        int fromIndex = (searchDTO.getOffset() - 1) * 7;
         String name = searchDTO.getName();
-        List<Vacancy>  vacancyList = (List<Vacancy>) vacancyRepository.findAll();
+        List<Vacancy> vacancyList = vacancyRepository.findAll();
         List<Vacancy> vacancyResult = new LinkedList<>();
 
         for(Vacancy vacancy: vacancyList) {
@@ -72,12 +87,11 @@ public class ResumeService {
                 vacancyResult.add(vacancy);
             }
         }
-        return vacancyResult.subList(fromIndex, Math.min(fromIndex + 10, vacancyResult.size()));
+        return vacancyResult;
     }
 
     public List<Response> reviewing(Long id) {
         Resume resume = getResumeById(id);
-        List<Response> responses = responseRepository.findAllByResume(resume);
-        return responses;
+        return responseRepository.findAllByResume(resume);
     }
 }
