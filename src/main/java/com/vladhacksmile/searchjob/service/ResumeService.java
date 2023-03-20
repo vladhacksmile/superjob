@@ -17,17 +17,20 @@ import java.util.*;
 
 @Service
 public class ResumeService {
-    @Autowired
-    ResumeRepository resumeRepository;
+    final ResumeRepository resumeRepository;
 
-    @Autowired
-    UserRepository userRepository;
+    final UserRepository userRepository;
 
-    @Autowired
-    VacancyRepository vacancyRepository;
+    final VacancyRepository vacancyRepository;
 
-    @Autowired
-    ResponseRepository responseRepository;;
+    final ResponseRepository responseRepository;;
+
+    public ResumeService(ResumeRepository resumeRepository, UserRepository userRepository, VacancyRepository vacancyRepository, ResponseRepository responseRepository) {
+        this.resumeRepository = resumeRepository;
+        this.userRepository = userRepository;
+        this.vacancyRepository = vacancyRepository;
+        this.responseRepository = responseRepository;
+    }
 
     public Resume getResumeById(long id) {
         Optional<Resume> resumeOptional = resumeRepository.findById(id);

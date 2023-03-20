@@ -1,7 +1,7 @@
 package com.vladhacksmile.searchjob.service;
 
 import com.vladhacksmile.searchjob.dto.ChangeStatusDTO;
-import com.vladhacksmile.searchjob.dto.JobDTO;
+import com.vladhacksmile.searchjob.dto.VacancyDTO;
 import com.vladhacksmile.searchjob.dto.ResponseVacancyDTO;
 import com.vladhacksmile.searchjob.dto.SearchDTO;
 import com.vladhacksmile.searchjob.entities.Account;
@@ -19,18 +19,21 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 
 @Service
-public class JobService {
-    @Autowired
-    VacancyRepository vacancyRepository;
+public class VacancyService {
+    final VacancyRepository vacancyRepository;
 
-    @Autowired
-    UserRepository userRepository;
+    final UserRepository userRepository;
 
-    @Autowired
-    ResumeRepository resumeRepository;
+    final ResumeRepository resumeRepository;
 
-    @Autowired
-    ResponseRepository responseRepository;
+    final ResponseRepository responseRepository;
+
+    public VacancyService(VacancyRepository vacancyRepository, UserRepository userRepository, ResumeRepository resumeRepository, ResponseRepository responseRepository) {
+        this.vacancyRepository = vacancyRepository;
+        this.userRepository = userRepository;
+        this.resumeRepository = resumeRepository;
+        this.responseRepository = responseRepository;
+    }
 
     public Vacancy getVacancyById(long id) {
         Optional<Vacancy> vacancyOptional = vacancyRepository.findById(id);
@@ -50,26 +53,26 @@ public class JobService {
         }
     }
 
-    public boolean addVacancy(JobDTO jobDTO) {
+    public boolean addVacancy(VacancyDTO vacancyDTO) {
         Vacancy vacancy = new Vacancy();
-        Optional<Account> optionalUser = userRepository.findById(jobDTO.getUserId());
+        Optional<Account> optionalUser = userRepository.findById(vacancyDTO.getUserId());
         if(optionalUser.isPresent()) {
             vacancy.setAccount(optionalUser.get());
         } else {
             return false;
         }
-        vacancy.setName(jobDTO.getName());
-        vacancy.setSalary(jobDTO.getSalary());
-        vacancy.setInformation(jobDTO.getInformation());
+        vacancy.setName(vacancyDTO.getName());
+        vacancy.setSalary(vacancyDTO.getSalary());
+        vacancy.setInformation(vacancyDTO.getInformation());
         vacancyRepository.save(vacancy);
         return true;
     }
 
-    public void updateVacancy(JobDTO jobDTO) {
+    public void updateVacancy(VacancyDTO vacancyDTO) {
         Vacancy vacancy = new Vacancy();
-        vacancy.setName(jobDTO.getName());
-        vacancy.setSalary(jobDTO.getSalary());
-        vacancy.setInformation(jobDTO.getInformation());
+        vacancy.setName(vacancyDTO.getName());
+        vacancy.setSalary(vacancyDTO.getSalary());
+        vacancy.setInformation(vacancyDTO.getInformation());
         vacancyRepository.save(vacancy);
     }
 

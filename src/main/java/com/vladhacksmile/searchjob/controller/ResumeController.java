@@ -14,10 +14,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/resume")
+@RequestMapping("/api/resumes")
 public class ResumeController {
-    @Autowired
-    ResumeService resumeService;
+    final ResumeService resumeService;
+
+    public ResumeController(ResumeService resumeService) {
+        this.resumeService = resumeService;
+    }
 
     @GetMapping("/{id}")
     public Resume getResume(@PathVariable long id) {
