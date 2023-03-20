@@ -27,7 +27,7 @@ public class ResumeService {
     VacancyRepository vacancyRepository;
 
     @Autowired
-    ResponseRepository responseRepository;;
+    ResponseRepository responseRepository;
 
     public Resume getResumeById(long id) {
         Optional<Resume> resumeOptional = resumeRepository.findById(id);
@@ -60,6 +60,7 @@ public class ResumeService {
     }
 
     public List<Vacancy> searchVacancy(SearchDTO searchDTO) {
+        int fromIndex = (searchDTO.getOffset() - 1) * 7;
         String name = searchDTO.getName();
         List<Vacancy>  vacancyList = (List<Vacancy>) vacancyRepository.findAll();
         List<Vacancy> vacancyResult = new LinkedList<>();
@@ -71,7 +72,7 @@ public class ResumeService {
                 vacancyResult.add(vacancy);
             }
         }
-        return vacancyResult;
+        return vacancyResult.subList(fromIndex, Math.min(fromIndex + 10, vacancyResult.size()));
     }
 
     public List<Response> reviewing(Long id) {

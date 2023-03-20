@@ -53,7 +53,7 @@ public class JobController {
     }
 
     @PostMapping("/search")
-    public ResponseEntity<Set<Resume>> searchVacancy(@RequestBody SearchDTO searchDTO) {
+    public ResponseEntity<List<Resume>> searchVacancy(@RequestBody SearchDTO searchDTO) {
         return new ResponseEntity<>(jobService.searchResume(searchDTO), HttpStatus.OK);
     }
 

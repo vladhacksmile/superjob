@@ -14,6 +14,8 @@ import com.vladhacksmile.searchjob.repository.ResumeRepository;
 import com.vladhacksmile.searchjob.repository.UserRepository;
 import com.vladhacksmile.searchjob.repository.VacancyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -85,10 +87,11 @@ public class JobService {
         }
     }
 
-    public Set<Resume> searchResume(SearchDTO searchDTO) {
+    public List<Resume> searchResume(SearchDTO searchDTO) {
+        int fromIndex = (searchDTO.getOffset() - 1) * 7;
         String name = searchDTO.getName();
         List<Resume> resumeList = resumeRepository.findAll();
-        Set<Resume> resumesResult = new HashSet<>();
+        List<Resume> resumesResult = new ArrayList<>();
 
         for(Resume resume: resumeList) {
             if (resume.getSpecialization().contains(name)) {
@@ -97,7 +100,7 @@ public class JobService {
                 resumesResult.add(resume);
             }
         }
-        return resumesResult;
+        return resumesResult.subList(fromIndex, Math.min(fromIndex + 10, resumesResult.size()));
     }
 
     public List<Response> reviewing(Long id) {
