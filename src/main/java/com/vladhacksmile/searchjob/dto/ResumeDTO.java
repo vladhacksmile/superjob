@@ -9,6 +9,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class ResumeDTO {
     private Long userId;
+    private Long resumeId;
     private String specialization;
     private String description;
 }

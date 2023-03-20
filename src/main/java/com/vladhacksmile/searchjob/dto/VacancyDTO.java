@@ -12,6 +12,7 @@ import javax.validation.constraints.NotEmpty;
 @AllArgsConstructor
 public class VacancyDTO {
     private Long userId;
+    private Long vacancyId;
     @Min(value = 0, message = "Salary should be greater than 0!")
     private int salary;
     @NotEmpty(message = "Name should not be empty!")

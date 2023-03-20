@@ -58,22 +58,35 @@ public class VacancyService {
         Optional<Account> optionalUser = userRepository.findById(vacancyDTO.getUserId());
         if(optionalUser.isPresent()) {
             vacancy.setAccount(optionalUser.get());
+            vacancy.setName(vacancyDTO.getName());
+            vacancy.setSalary(vacancyDTO.getSalary());
+            vacancy.setInformation(vacancyDTO.getInformation());
+            vacancyRepository.save(vacancy);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean deleteVacancyById(long id) {
+        Vacancy vacancy = getVacancyById(id);
+        if(vacancy != null) {
+            vacancyRepository.deleteById(id);
+            return true;
         } else {
             return false;
         }
-        vacancy.setName(vacancyDTO.getName());
-        vacancy.setSalary(vacancyDTO.getSalary());
-        vacancy.setInformation(vacancyDTO.getInformation());
-        vacancyRepository.save(vacancy);
-        return true;
     }
 
-    public void updateVacancy(VacancyDTO vacancyDTO) {
-        Vacancy vacancy = new Vacancy();
-        vacancy.setName(vacancyDTO.getName());
-        vacancy.setSalary(vacancyDTO.getSalary());
-        vacancy.setInformation(vacancyDTO.getInformation());
-        vacancyRepository.save(vacancy);
+    public boolean updateVacancy(VacancyDTO vacancyDTO) {
+        Vacancy vacancy = getVacancyById(vacancyDTO.getVacancyId());
+        if(vacancy != null) {
+            vacancy.setName(vacancyDTO.getName());
+            vacancy.setSalary(vacancyDTO.getSalary());
+            vacancy.setInformation(vacancyDTO.getInformation());
+            vacancyRepository.save(vacancy);
+            return true;
+        }
+        return false;
     }
 
     public boolean responseVacancy(ResponseVacancyDTO responseVacancyDTO) {

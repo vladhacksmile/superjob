@@ -27,19 +27,28 @@ public class ResumeController {
         return resumeService.getResumeById(id);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<?> deleteResume(@PathVariable long id) {
+        if(resumeService.deleteResumeById(id)) {
+            return new ResponseEntity<>("Resume removed!", HttpStatus.OK);
+        }
+        return new ResponseEntity<>("Resume didn't remove!", HttpStatus.BAD_REQUEST);
+    }
+
     @PostMapping
     public ResponseEntity<?> createResume(@RequestBody ResumeDTO resumeDTO) {
         if (resumeService.addResume(resumeDTO)) {
             return new ResponseEntity<>("Resume created!", HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>("Resume didn't create!", HttpStatus.OK);
         }
+        return new ResponseEntity<>("Resume didn't create!", HttpStatus.OK);
     }
 
     @PutMapping
     public ResponseEntity<?> updateResume(@RequestBody ResumeDTO resumeDTO) {
-        resumeService.updateResume(resumeDTO);
-        return new ResponseEntity<>("Resume updated!", HttpStatus.OK);
+        if(resumeService.updateResume(resumeDTO)) {
+            return new ResponseEntity<>("Resume updated!", HttpStatus.OK);
+        }
+        return new ResponseEntity<>("Resume didn't update!", HttpStatus.BAD_REQUEST);
     }
 
     @PostMapping("/search")

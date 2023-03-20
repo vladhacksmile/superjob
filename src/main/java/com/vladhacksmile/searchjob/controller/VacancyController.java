@@ -37,24 +37,32 @@ public class VacancyController {
     public ResponseEntity<?> createVacancy(@RequestBody @Valid VacancyDTO vacancyDTO, BindingResult bindingResult) {
         if (vacancyService.addVacancy(vacancyDTO) && !bindingResult.hasErrors()) {
             return new ResponseEntity<>("Vacancy created!", HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>("Vacancy didn't created! " + bindingResult.toString(), HttpStatus.BAD_REQUEST);
         }
+        return new ResponseEntity<>("Vacancy didn't created! " + bindingResult.toString(), HttpStatus.BAD_REQUEST);
     }
 
     @PutMapping
     public ResponseEntity<?> updateVacancy(@RequestBody VacancyDTO vacancyDTO) {
-        vacancyService.updateVacancy(vacancyDTO);
-        return new ResponseEntity<>("Vacancy updated!", HttpStatus.OK);
+        if (vacancyService.updateVacancy(vacancyDTO)) {
+            return new ResponseEntity<>("Vacancy updated!", HttpStatus.OK);
+        }
+        return new ResponseEntity<>("Vacancy didn't update!", HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> deleteVacancy(@PathVariable long id) {
+        if(vacancyService.deleteVacancyById(id)) {
+            return new ResponseEntity<>("Vacancy removed!", HttpStatus.OK);
+        }
+        return new ResponseEntity<>("Vacancy didn't remove!", HttpStatus.BAD_REQUEST);
     }
 
     @PostMapping("/response")
     public ResponseEntity<?> responseVacancy(@RequestBody ResponseVacancyDTO responseVacancyDTO) {
         if (vacancyService.responseVacancy(responseVacancyDTO)) {
             return new ResponseEntity<>("Response vacancy sent!", HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>("Response vacancy didn't send!", HttpStatus.OK);
         }
+        return new ResponseEntity<>("Response vacancy didn't send!", HttpStatus.OK);
     }
 
     @PostMapping("/search")
@@ -71,8 +79,7 @@ public class VacancyController {
     public ResponseEntity<?> changeStatus(@RequestBody ChangeStatusDTO changeStatusDTO) {
         if(vacancyService.changeStatus(changeStatusDTO)) {
             return new ResponseEntity<>("Status changed!", HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>("Status didn't change!", HttpStatus.OK);
         }
+        return new ResponseEntity<>("Status didn't change!", HttpStatus.OK);
     }
 }

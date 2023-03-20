@@ -23,7 +23,7 @@ public class ResumeService {
 
     final VacancyRepository vacancyRepository;
 
-    final ResponseRepository responseRepository;;
+    final ResponseRepository responseRepository;
 
     public ResumeService(ResumeRepository resumeRepository, UserRepository userRepository, VacancyRepository vacancyRepository, ResponseRepository responseRepository) {
         this.resumeRepository = resumeRepository;
@@ -46,25 +46,38 @@ public class ResumeService {
         Optional<Account> optionalUser = userRepository.findById(resumeDTO.getUserId());
         if(optionalUser.isPresent()) {
             resume.setAccount(optionalUser.get());
+            resume.setSpecialization(resumeDTO.getSpecialization());
+            resume.setDescription(resumeDTO.getDescription());
+            resumeRepository.save(resume);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean updateResume(ResumeDTO resumeDTO) {
+        Resume resume = getResumeById(resumeDTO.getResumeId());
+        if(resume != null) {
+            resume.setSpecialization(resumeDTO.getSpecialization());
+            resume.setDescription(resume.getDescription());
+            resumeRepository.save(resume);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean deleteResumeById(long id) {
+        Resume resume = getResumeById(id);
+        if(resume != null) {
+            resumeRepository.deleteById(id);
+            return true;
         } else {
             return false;
         }
-        resume.setSpecialization(resumeDTO.getSpecialization());
-        resume.setDescription(resumeDTO.getDescription());
-        resumeRepository.save(resume);
-        return true;
-    }
-
-    public void updateResume(ResumeDTO resumeDTO) {
-        Resume resume = new Resume();
-        resume.setSpecialization(resumeDTO.getSpecialization());
-        resume.setDescription(resume.getDescription());
-        resumeRepository.save(resume);
     }
 
     public List<Vacancy> searchVacancy(SearchDTO searchDTO) {
         String name = searchDTO.getName();
-        List<Vacancy>  vacancyList = (List<Vacancy>) vacancyRepository.findAll();
+        List<Vacancy> vacancyList = vacancyRepository.findAll();
         List<Vacancy> vacancyResult = new LinkedList<>();
 
         for(Vacancy vacancy: vacancyList) {
@@ -79,7 +92,6 @@ public class ResumeService {
 
     public List<Response> reviewing(Long id) {
         Resume resume = getResumeById(id);
-        List<Response> responses = responseRepository.findAllByResume(resume);
-        return responses;
+        return responseRepository.findAllByResume(resume);
     }
 }
