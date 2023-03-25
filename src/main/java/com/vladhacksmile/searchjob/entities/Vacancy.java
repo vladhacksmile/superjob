@@ -2,6 +2,11 @@ package com.vladhacksmile.searchjob.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,10 +23,14 @@ public class Vacancy {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @PositiveOrZero
     private int salary;
 
+    @NotEmpty
+    @NotNull
     private String name;
-
+    @NotEmpty
+    @NotNull
     private String information;
 
     @ManyToOne

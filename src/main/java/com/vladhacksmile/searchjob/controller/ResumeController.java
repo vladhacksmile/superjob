@@ -1,6 +1,7 @@
 package com.vladhacksmile.searchjob.controller;
 
 import com.vladhacksmile.searchjob.dto.ResumeDTO;
+import com.vladhacksmile.searchjob.dto.ResumeDeleteDTO;
 import com.vladhacksmile.searchjob.dto.SearchDTO;
 import com.vladhacksmile.searchjob.entities.Response;
 import com.vladhacksmile.searchjob.entities.Resume;
@@ -27,9 +28,9 @@ public class ResumeController {
         return resumeService.getResumeById(id);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<?> deleteResume(@PathVariable long id) {
-        if(resumeService.deleteResumeById(id)) {
+    @DeleteMapping
+    public ResponseEntity<?> deleteResume(@RequestBody ResumeDeleteDTO resumeDeleteDTO) {
+        if(resumeService.deleteResumeById(resumeDeleteDTO.getResumeId())) {
             return new ResponseEntity<>("Resume removed!", HttpStatus.OK);
         }
         return new ResponseEntity<>("Resume didn't remove!", HttpStatus.BAD_REQUEST);

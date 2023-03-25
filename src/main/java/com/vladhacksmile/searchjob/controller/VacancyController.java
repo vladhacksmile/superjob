@@ -1,9 +1,6 @@
 package com.vladhacksmile.searchjob.controller;
 
-import com.vladhacksmile.searchjob.dto.ChangeStatusDTO;
-import com.vladhacksmile.searchjob.dto.VacancyDTO;
-import com.vladhacksmile.searchjob.dto.ResponseVacancyDTO;
-import com.vladhacksmile.searchjob.dto.SearchDTO;
+import com.vladhacksmile.searchjob.dto.*;
 import com.vladhacksmile.searchjob.entities.Response;
 import com.vladhacksmile.searchjob.entities.Resume;
 import com.vladhacksmile.searchjob.entities.Vacancy;
@@ -49,9 +46,9 @@ public class VacancyController {
         return new ResponseEntity<>("Vacancy didn't update!", HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<?> deleteVacancy(@PathVariable long id) {
-        if(vacancyService.deleteVacancyById(id)) {
+    @DeleteMapping
+    public ResponseEntity<?> deleteVacancy(@RequestBody VacancyDeleteDTO vacancyDeleteDTO) {
+        if(vacancyService.deleteVacancyById(vacancyDeleteDTO.getVacancyId())) {
             return new ResponseEntity<>("Vacancy removed!", HttpStatus.OK);
         }
         return new ResponseEntity<>("Vacancy didn't remove!", HttpStatus.BAD_REQUEST);
