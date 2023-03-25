@@ -4,6 +4,7 @@ import com.vladhacksmile.searchjob.dto.RegisterDTO;
 import com.vladhacksmile.searchjob.entities.Account;
 import com.vladhacksmile.searchjob.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,6 +30,6 @@ public class UserService {
                 registerDTO.getAge(), registerDTO.getNumber(), registerDTO.getMail());
 
         userRepository.save(account);
-        return ResponseEntity.ok("User registered!");
+        return new ResponseEntity<>(account, HttpStatus.OK);
     }
 }

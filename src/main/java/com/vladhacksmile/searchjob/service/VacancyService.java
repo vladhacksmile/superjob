@@ -55,7 +55,7 @@ public class VacancyService {
         }
     }
 
-    public boolean addVacancy(VacancyDTO vacancyDTO) {
+    public Vacancy addVacancy(VacancyDTO vacancyDTO) {
         Vacancy vacancy = new Vacancy();
         Optional<Account> optionalUser = userRepository.findById(vacancyDTO.getUserId());
         if(optionalUser.isPresent()) {
@@ -64,9 +64,9 @@ public class VacancyService {
             vacancy.setSalary(vacancyDTO.getSalary());
             vacancy.setInformation(vacancyDTO.getInformation());
             vacancyRepository.save(vacancy);
-            return true;
+            return vacancy;
         }
-        return false;
+        return null;
     }
 
     public boolean deleteVacancyById(long id) {
@@ -104,7 +104,7 @@ public class VacancyService {
     }
 
     public List<Resume> searchResume(SearchDTO searchDTO) {
-        int fromIndex = (searchDTO.getOffset() - 1) * 7;
+        int fromIndex = (searchDTO.getOffset() - 1) * 10;
         String name = searchDTO.getName();
         List<Resume> resumeList = resumeRepository.findAll();
         List<Resume> resumesResult = new ArrayList<>();
@@ -116,7 +116,13 @@ public class VacancyService {
                 resumesResult.add(resume);
             }
         }
-        return resumesResult.subList(fromIndex, Math.min(fromIndex + 10, resumesResult.size()));
+
+        List<Resume> result = new ArrayList<>();
+        try {
+            result = resumesResult.subList(fromIndex, Math.min(fromIndex + 10, resumesResult.size()));
+        } catch (IllegalArgumentException ignored) {}
+
+        return result;
     }
 
     public List<Response> reviewing(Long id) {

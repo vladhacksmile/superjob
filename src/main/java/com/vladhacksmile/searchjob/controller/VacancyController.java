@@ -32,8 +32,9 @@ public class VacancyController {
 
     @PostMapping
     public ResponseEntity<?> createVacancy(@RequestBody @Valid VacancyDTO vacancyDTO, BindingResult bindingResult) {
-        if (vacancyService.addVacancy(vacancyDTO) && !bindingResult.hasErrors()) {
-            return new ResponseEntity<>("Vacancy created!", HttpStatus.OK);
+        Vacancy vacancy = vacancyService.addVacancy(vacancyDTO);
+        if (vacancy  != null && !bindingResult.hasErrors()) {
+            return new ResponseEntity<>(vacancy, HttpStatus.OK);
         }
         return new ResponseEntity<>("Vacancy didn't created! " + bindingResult.toString(), HttpStatus.BAD_REQUEST);
     }
@@ -41,7 +42,7 @@ public class VacancyController {
     @PutMapping
     public ResponseEntity<?> updateVacancy(@RequestBody VacancyDTO vacancyDTO) {
         if (vacancyService.updateVacancy(vacancyDTO)) {
-            return new ResponseEntity<>("Vacancy updated!", HttpStatus.OK);
+            return new ResponseEntity<>(vacancyDTO, HttpStatus.OK);
         }
         return new ResponseEntity<>("Vacancy didn't update!", HttpStatus.OK);
     }
@@ -57,13 +58,13 @@ public class VacancyController {
     @PostMapping("/response")
     public ResponseEntity<?> responseVacancy(@RequestBody ResponseVacancyDTO responseVacancyDTO) {
         if (vacancyService.responseVacancy(responseVacancyDTO)) {
-            return new ResponseEntity<>("Response vacancy sent!", HttpStatus.OK);
+            return new ResponseEntity<>("Response sent!", HttpStatus.OK);
         }
         return new ResponseEntity<>("Response vacancy didn't send!", HttpStatus.OK);
     }
 
     @PostMapping("/search")
-    public ResponseEntity<Set<Resume>> searchVacancy(@RequestBody SearchDTO searchDTO) {
+    public ResponseEntity<List<Resume>> searchVacancy(@RequestBody SearchDTO searchDTO) {
         return new ResponseEntity<>(vacancyService.searchResume(searchDTO), HttpStatus.OK);
     }
 

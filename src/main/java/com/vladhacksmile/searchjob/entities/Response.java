@@ -2,6 +2,8 @@ package com.vladhacksmile.searchjob.entities;
 
 import com.vladhacksmile.searchjob.enums.ResumeStatus;
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 
@@ -16,9 +18,11 @@ public class Response {
     private Long id;
 
     @ManyToOne(fetch = FetchType.EAGER)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "resume_id")
     private Resume resume;
     @ManyToOne(fetch = FetchType.EAGER)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "vacancy_id")
     private Vacancy vacancy;
     private ResumeStatus resumeStatus = ResumeStatus.REVIEW;

@@ -38,10 +38,11 @@ public class ResumeController {
 
     @PostMapping
     public ResponseEntity<?> createResume(@RequestBody ResumeDTO resumeDTO) {
-        if (resumeService.addResume(resumeDTO)) {
-            return new ResponseEntity<>("Resume created!", HttpStatus.OK);
+        Resume resume = resumeService.addResume(resumeDTO);
+        if (resume != null) {
+            return new ResponseEntity<>(resume, HttpStatus.OK);
         }
-        return new ResponseEntity<>("Resume didn't create!", HttpStatus.OK);
+        return new ResponseEntity<>("Resume didn't create!", HttpStatus.BAD_REQUEST);
     }
 
     @PutMapping

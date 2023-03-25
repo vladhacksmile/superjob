@@ -41,7 +41,7 @@ public class ResumeService {
         }
     }
 
-    public boolean addResume(ResumeDTO resumeDTO) {
+    public Resume addResume(ResumeDTO resumeDTO) {
         Resume resume = new Resume();
         Optional<Account> optionalUser = userRepository.findById(resumeDTO.getUserId());
         if(optionalUser.isPresent()) {
@@ -49,9 +49,9 @@ public class ResumeService {
             resume.setSpecialization(resumeDTO.getSpecialization());
             resume.setDescription(resumeDTO.getDescription());
             resumeRepository.save(resume);
-            return true;
+            return resume;
         }
-        return false;
+        return null;
     }
 
     public boolean updateResume(ResumeDTO resumeDTO) {
@@ -88,7 +88,12 @@ public class ResumeService {
                 vacancyResult.add(vacancy);
             }
         }
-        return vacancyResult.subList(fromIndex, Math.min(fromIndex + 10, vacancyResult.size()));
+        List<Vacancy> result = new ArrayList<>();
+        try {
+            result = vacancyResult.subList(fromIndex, Math.min(fromIndex + 10, vacancyResult.size()));
+        } catch (IllegalArgumentException ignored) {}
+
+        return result;
     }
 
     public List<Response> reviewing(Long id) {
