@@ -14,6 +14,7 @@ import com.vladhacksmile.searchjob.repository.ResumeRepository;
 import com.vladhacksmile.searchjob.repository.UserRepository;
 import com.vladhacksmile.searchjob.repository.VacancyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -104,25 +105,28 @@ public class VacancyService {
     }
 
     public List<Resume> searchResume(SearchDTO searchDTO) {
-        int fromIndex = (searchDTO.getOffset() - 1) * 10;
-        String name = searchDTO.getName();
-        List<Resume> resumeList = resumeRepository.findAll();
-        List<Resume> resumesResult = new ArrayList<>();
 
-        for(Resume resume: resumeList) {
-            if (resume.getSpecialization().contains(name)) {
-                resumesResult.add(resume);
-            } else if (resume.getDescription().contains(name)) {
-                resumesResult.add(resume);
-            }
-        }
-
-        List<Resume> result = new ArrayList<>();
-        try {
-            result = resumesResult.subList(fromIndex, Math.min(fromIndex + 10, resumesResult.size()));
-        } catch (IllegalArgumentException ignored) {}
-
-        return result;
+        Pageable pageable = PageRequest.of(0, 10);
+        return resumeRepository.findAllBySpecializationLike(searchDTO.getName(),pageable);
+//        int fromIndex = (searchDTO.getOffset() - 1) * 10;
+//        String name = searchDTO.getName();
+//        List<Resume> resumeList = resumeRepository.findAll();
+//        List<Resume> resumesResult = new ArrayList<>();
+//
+//        for(Resume resume: resumeList) {
+//            if (resume.getSpecialization().contains(name)) {
+//                resumesResult.add(resume);
+//            } else if (resume.getDescription().contains(name)) {
+//                resumesResult.add(resume);
+//            }
+//        }
+//
+//        List<Resume> result = new ArrayList<>();
+//        try {
+//            result = resumesResult.subList(fromIndex, Math.min(fromIndex + 10, resumesResult.size()));
+//        } catch (IllegalArgumentException ignored) {}
+//
+//        return result;
     }
 
     public List<Response> reviewing(Long id) {
