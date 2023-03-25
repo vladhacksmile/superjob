@@ -11,6 +11,8 @@ import com.vladhacksmile.searchjob.repository.ResumeRepository;
 import com.vladhacksmile.searchjob.repository.UserRepository;
 import com.vladhacksmile.searchjob.repository.VacancyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -76,24 +78,26 @@ public class ResumeService {
     }
 
     public List<Vacancy> searchVacancy(SearchDTO searchDTO) {
-        int fromIndex = (searchDTO.getOffset() - 1) * 10;
-        String name = searchDTO.getName();
-        List<Vacancy> vacancyList = vacancyRepository.findAll();
-        List<Vacancy> vacancyResult = new LinkedList<>();
-
-        for(Vacancy vacancy: vacancyList) {
-            if (vacancy.getName().contains(name)) {
-                vacancyResult.add(vacancy);
-            } else if (vacancy.getInformation().contains(name)) {
-                vacancyResult.add(vacancy);
-            }
-        }
-        List<Vacancy> result = new ArrayList<>();
-        try {
-            result = vacancyResult.subList(fromIndex, Math.min(fromIndex + 10, vacancyResult.size()));
-        } catch (IllegalArgumentException ignored) {}
-
-        return result;
+        Pageable pageable = PageRequest.of(searchDTO.getOffset() + 1, 10);
+        return vacancyRepository.findAllByNameContains(searchDTO.getName(), pageable);
+//        int fromIndex = (searchDTO.getOffset() - 1) * 10;
+//        String name = searchDTO.getName();
+//        List<Vacancy> vacancyList = vacancyRepository.findAll();
+//        List<Vacancy> vacancyResult = new LinkedList<>();
+//
+//        for(Vacancy vacancy: vacancyList) {
+//            if (vacancy.getName().contains(name)) {
+//                vacancyResult.add(vacancy);
+//            } else if (vacancy.getInformation().contains(name)) {
+//                vacancyResult.add(vacancy);
+//            }
+//        }
+//        List<Vacancy> result = new ArrayList<>();
+//        try {
+//            result = vacancyResult.subList(fromIndex, Math.min(fromIndex + 10, vacancyResult.size()));
+//        } catch (IllegalArgumentException ignored) {}
+//
+//        return result;
     }
 
     public List<Response> reviewing(Long id) {

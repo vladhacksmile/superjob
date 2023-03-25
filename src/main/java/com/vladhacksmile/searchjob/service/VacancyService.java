@@ -105,9 +105,8 @@ public class VacancyService {
     }
 
     public List<Resume> searchResume(SearchDTO searchDTO) {
-
-        Pageable pageable = PageRequest.of(0, 10);
-        return resumeRepository.findAllBySpecializationLike(searchDTO.getName(),pageable);
+        Pageable pageable = PageRequest.of(searchDTO.getOffset() + 1, 10);
+        return resumeRepository.findAllBySpecializationContains(searchDTO.getName(), pageable);
 //        int fromIndex = (searchDTO.getOffset() - 1) * 10;
 //        String name = searchDTO.getName();
 //        List<Resume> resumeList = resumeRepository.findAll();
