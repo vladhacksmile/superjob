@@ -1,8 +1,16 @@
 package com.vladhacksmile.searchjob.repository;
 
-import com.vladhacksmile.searchjob.entities.Account;
+import com.vladhacksmile.searchjob.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface UserRepository extends JpaRepository<Account, Long> {
-    boolean existsByMail(String mail);
+import java.util.Optional;
+
+@Repository
+public interface UserRepository extends JpaRepository<User, Long> {
+
+    Optional<User> findByUsername(String username);
+
+    Boolean existsByUsername(String username);
+
 }

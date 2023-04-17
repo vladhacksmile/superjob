@@ -9,10 +9,7 @@ import com.vladhacksmile.searchjob.entities.Response;
 import com.vladhacksmile.searchjob.entities.Resume;
 import com.vladhacksmile.searchjob.entities.Vacancy;
 import com.vladhacksmile.searchjob.enums.ResumeStatus;
-import com.vladhacksmile.searchjob.repository.ResponseRepository;
-import com.vladhacksmile.searchjob.repository.ResumeRepository;
-import com.vladhacksmile.searchjob.repository.UserRepository;
-import com.vladhacksmile.searchjob.repository.VacancyRepository;
+import com.vladhacksmile.searchjob.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -23,20 +20,19 @@ import java.util.*;
 
 @Service
 public class VacancyService {
-    final VacancyRepository vacancyRepository;
 
-    final UserRepository userRepository;
+    @Autowired
+    VacancyRepository vacancyRepository;
 
-    final ResumeRepository resumeRepository;
+    @Autowired
+    AccountRepository accountRepository;
 
-    final ResponseRepository responseRepository;
+    @Autowired
+    ResumeRepository resumeRepository;
 
-    public VacancyService(VacancyRepository vacancyRepository, UserRepository userRepository, ResumeRepository resumeRepository, ResponseRepository responseRepository) {
-        this.vacancyRepository = vacancyRepository;
-        this.userRepository = userRepository;
-        this.resumeRepository = resumeRepository;
-        this.responseRepository = responseRepository;
-    }
+    @Autowired
+    ResponseRepository responseRepository;
+
 
     public Vacancy getVacancyById(long id) {
         Optional<Vacancy> vacancyOptional = vacancyRepository.findById(id);
@@ -58,7 +54,7 @@ public class VacancyService {
 
     public Vacancy addVacancy(VacancyDTO vacancyDTO) {
         Vacancy vacancy = new Vacancy();
-        Optional<Account> optionalUser = userRepository.findById(vacancyDTO.getUserId());
+        Optional<Account> optionalUser = accountRepository.findById(vacancyDTO.getUserId());
         if(optionalUser.isPresent()) {
             vacancy.setAccount(optionalUser.get());
             vacancy.setName(vacancyDTO.getName());

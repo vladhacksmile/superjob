@@ -6,10 +6,7 @@ import com.vladhacksmile.searchjob.entities.Account;
 import com.vladhacksmile.searchjob.entities.Response;
 import com.vladhacksmile.searchjob.entities.Resume;
 import com.vladhacksmile.searchjob.entities.Vacancy;
-import com.vladhacksmile.searchjob.repository.ResponseRepository;
-import com.vladhacksmile.searchjob.repository.ResumeRepository;
-import com.vladhacksmile.searchjob.repository.UserRepository;
-import com.vladhacksmile.searchjob.repository.VacancyRepository;
+import com.vladhacksmile.searchjob.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -19,20 +16,17 @@ import java.util.*;
 
 @Service
 public class ResumeService {
-    final ResumeRepository resumeRepository;
+    @Autowired
+    ResumeRepository resumeRepository;
 
-    final UserRepository userRepository;
+    @Autowired
+    AccountRepository accountRepository;
 
-    final VacancyRepository vacancyRepository;
+    @Autowired
+    VacancyRepository vacancyRepository;
 
-    final ResponseRepository responseRepository;
-
-    public ResumeService(ResumeRepository resumeRepository, UserRepository userRepository, VacancyRepository vacancyRepository, ResponseRepository responseRepository) {
-        this.resumeRepository = resumeRepository;
-        this.userRepository = userRepository;
-        this.vacancyRepository = vacancyRepository;
-        this.responseRepository = responseRepository;
-    }
+    @Autowired
+    ResponseRepository responseRepository;
 
     public Resume getResumeById(long id) {
         Optional<Resume> resumeOptional = resumeRepository.findById(id);
@@ -45,7 +39,7 @@ public class ResumeService {
 
     public Resume addResume(ResumeDTO resumeDTO) {
         Resume resume = new Resume();
-        Optional<Account> optionalUser = userRepository.findById(resumeDTO.getUserId());
+        Optional<Account> optionalUser = accountRepository.findById(resumeDTO.getUserId());
         if(optionalUser.isPresent()) {
             resume.setAccount(optionalUser.get());
             resume.setSpecialization(resumeDTO.getSpecialization());
