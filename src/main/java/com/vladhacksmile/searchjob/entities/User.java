@@ -1,15 +1,19 @@
 package com.vladhacksmile.searchjob.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.vladhacksmile.searchjob.enums.UserRole;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.util.Collection;
 
 @NoArgsConstructor
 @Setter
@@ -20,7 +24,7 @@ import javax.validation.constraints.Size;
         uniqueConstraints = {
                 @UniqueConstraint(columnNames = "mail")
         })
-public class User {
+public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -41,6 +45,7 @@ public class User {
     @Size(min = 5, message = "Mail should be contains min 5 symbols!")
     @Email(message = "Incorrect mail format!")
     private String mail;
+    @JsonIgnore
     private String password;
 
 //    @OneToMany(targetEntity = Resume.class, mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -61,5 +66,35 @@ public class User {
         this.password = password;
 //        this.resume = resume;
 //        this.vacancy = vacancy;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+    }
+
+    @Override
+    public String getUsername() {
+        return mail;
     }
 }

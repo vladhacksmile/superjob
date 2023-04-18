@@ -1,6 +1,7 @@
 package com.vladhacksmile.searchjob.security.jwt;
 
-import com.vladhacksmile.searchjob.service.auth.UserDetailsImpl;
+import com.vladhacksmile.searchjob.entities.User;
+import com.vladhacksmile.searchjob.service.auth.UserDetailsServiceImpl;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -21,9 +22,9 @@ public class JwtUtils {
 
     public String generateJwtToken(Authentication authentication) {
 
-        UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
+        User userPrincipal = (User) authentication.getPrincipal();
 
-        return Jwts.builder().setSubject((userPrincipal.getUsername())).setIssuedAt(new Date())
+        return Jwts.builder().setSubject((userPrincipal.getMail())).setIssuedAt(new Date())
                 .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
                 .signWith(SignatureAlgorithm.HS512, jwtSecret).compact();
     }

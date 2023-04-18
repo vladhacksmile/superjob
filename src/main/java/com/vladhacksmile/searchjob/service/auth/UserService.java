@@ -52,10 +52,10 @@ public class UserService {
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
             String jwt = jwtUtils.generateJwtToken(authentication);
-            UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+            User userDetails = (User) authentication.getPrincipal();
             return new JwtResponse(jwt,
                     userDetails.getId(),
-                    userDetails.getUsername());
+                    userDetails.getMail());
         } else {
             return new JwtResponse("ERROR",
                     1L,
