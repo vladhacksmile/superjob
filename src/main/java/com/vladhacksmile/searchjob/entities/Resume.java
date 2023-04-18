@@ -7,7 +7,6 @@ import javax.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import net.minidev.json.annotate.JsonIgnore;
 
 
 @NoArgsConstructor
@@ -27,11 +26,11 @@ public class Resume {
     private String description;
     @ManyToOne
     @JoinColumn(name = "account_id")
-    private Account account;
+    private User user;
 
-    public Resume(String specialization, String description, Account account) {
+    public Resume(String specialization, String description, User user) {
         this.specialization = specialization;
         this.description = description;
-        this.account = account;
+        this.user = user;
     }
 }

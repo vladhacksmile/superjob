@@ -1,30 +1,20 @@
 package com.vladhacksmile.searchjob.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
+
 @Setter
-@AllArgsConstructor
+@Getter
 public class AuthRequest {
-
-    private String username;
+    @NotEmpty(message = "Mail should not be empty!")
+    @Size(min = 5, message = "Mail should be contains min 5 symbols!")
+    @Email(message = "Incorrect mail format!")
+    private String mail;
+    @NotEmpty(message = "Password should not be empty!")
+    @Size(min = 6, message = "Password should be contains min 6 symbols!")
     private String password;
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 }

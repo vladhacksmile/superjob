@@ -1,8 +1,6 @@
 package com.vladhacksmile.searchjob.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
@@ -10,8 +8,6 @@ import javax.validation.constraints.PositiveOrZero;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.Set;
 
 @NoArgsConstructor
 @Setter
@@ -35,12 +31,12 @@ public class Vacancy {
 
     @ManyToOne
     @JoinColumn(name = "account_id")
-    private Account account;
+    private User user;
 
-    public Vacancy(int salary, String name, String information, Account account) {
+    public Vacancy(int salary, String name, String information, User user) {
         this.salary = salary;
         this.name = name;
         this.information = information;
-        this.account = account;
+        this.user = user;
     }
 }

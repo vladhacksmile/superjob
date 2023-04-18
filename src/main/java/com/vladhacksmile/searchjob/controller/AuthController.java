@@ -1,6 +1,7 @@
 package com.vladhacksmile.searchjob.controller;
 
 import com.vladhacksmile.searchjob.dto.AuthRequest;
+import com.vladhacksmile.searchjob.dto.RegisterRequest;
 import com.vladhacksmile.searchjob.dto.MessageResponse;
 import com.vladhacksmile.searchjob.service.auth.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,16 +17,14 @@ public class AuthController {
     private UserService userService;
 
     @PostMapping("/register")
-    public MessageResponse register(@RequestBody AuthRequest user) {
-
-        return userService.register(user);
+    public MessageResponse register(@RequestBody RegisterRequest registerRequest) {
+        return userService.register(registerRequest);
     }
-
-
+    
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody AuthRequest user) {
+    public ResponseEntity<?> login(@RequestBody AuthRequest authRequest) {
         try {
-            return ResponseEntity.ok(userService.login(user));
+            return ResponseEntity.ok(userService.login(authRequest));
         } catch (Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }

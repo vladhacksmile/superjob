@@ -12,9 +12,7 @@ import javax.validation.constraints.NotNull;
 @Setter
 @AllArgsConstructor
 public class ResumeDTO {
-    @Min(1)
-    private Long userId;
-    @Min(1)
+//    @Min(1)
     private Long resumeId;
     @NotNull
     @NotEmpty

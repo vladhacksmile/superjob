@@ -1,6 +1,7 @@
 package com.vladhacksmile.searchjob.service.auth;
 
 import com.vladhacksmile.searchjob.dto.AuthRequest;
+import com.vladhacksmile.searchjob.dto.RegisterRequest;
 import com.vladhacksmile.searchjob.dto.JwtResponse;
 import com.vladhacksmile.searchjob.dto.MessageResponse;
 import com.vladhacksmile.searchjob.entities.User;
@@ -29,23 +30,24 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public MessageResponse register(AuthRequest authRequest) {
+    public MessageResponse register(RegisterRequest registerRequest) {
 
-        if(userRepository.existsByUsername(authRequest.getUsername())) {
+        if(userRepository.existsByMail(registerRequest.getMail())) {
             return new MessageResponse("Auth Error, User already exist");
         } else {
-            User user = new User(authRequest.getUsername(),
-                    passwordEncoder.encode(authRequest.getPassword()));
+            User user = new User(registerRequest.getRole(), registerRequest.getName(), registerRequest.getSurname(), registerRequest.getPatronymic(),
+                    registerRequest.getAge(), registerRequest.getNumber(), registerRequest.getMail(),
+                    passwordEncoder.encode(registerRequest.getPassword()));
             userRepository.save(user);
             return new MessageResponse("Okay");
         }
     }
 
     public JwtResponse login(AuthRequest authRequest) {
-        if (userRepository.existsByUsername(authRequest.getUsername())) {
+        if (userRepository.existsByMail(authRequest.getMail())) {
             Authentication authentication = authenticationManager
                     .authenticate(new UsernamePasswordAuthenticationToken(
-                            authRequest.getUsername(),
+                            authRequest.getMail(),
                             authRequest.getPassword()));
 
             SecurityContextHolder.getContext().setAuthentication(authentication);

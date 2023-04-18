@@ -3,11 +3,13 @@ package com.vladhacksmile.searchjob.controller;
 import com.vladhacksmile.searchjob.dto.*;
 import com.vladhacksmile.searchjob.entities.Response;
 import com.vladhacksmile.searchjob.entities.Resume;
+import com.vladhacksmile.searchjob.entities.User;
 import com.vladhacksmile.searchjob.entities.Vacancy;
 import com.vladhacksmile.searchjob.service.VacancyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,8 +33,8 @@ public class VacancyController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createVacancy(@RequestBody @Valid VacancyDTO vacancyDTO, BindingResult bindingResult) {
-        Vacancy vacancy = vacancyService.addVacancy(vacancyDTO);
+    public ResponseEntity<?> createVacancy(@AuthenticationPrincipal User user, @RequestBody @Valid VacancyDTO vacancyDTO, BindingResult bindingResult) {
+        Vacancy vacancy = vacancyService.addVacancy(user, vacancyDTO);
         if (vacancy  != null && !bindingResult.hasErrors()) {
             return new ResponseEntity<>(vacancy, HttpStatus.OK);
         }
@@ -40,16 +42,16 @@ public class VacancyController {
     }
 
     @PutMapping
-    public ResponseEntity<?> updateVacancy(@RequestBody VacancyDTO vacancyDTO) {
-        if (vacancyService.updateVacancy(vacancyDTO)) {
+    public ResponseEntity<?> updateVacancy(@AuthenticationPrincipal User user, @RequestBody VacancyDTO vacancyDTO) {
+        if (vacancyService.updateVacancy(user, vacancyDTO)) {
             return new ResponseEntity<>(vacancyDTO, HttpStatus.OK);
         }
         return new ResponseEntity<>("Vacancy didn't update!", HttpStatus.OK);
     }
 
     @DeleteMapping
-    public ResponseEntity<?> deleteVacancy(@RequestBody VacancyDeleteDTO vacancyDeleteDTO) {
-        if(vacancyService.deleteVacancyById(vacancyDeleteDTO.getVacancyId())) {
+    public ResponseEntity<?> deleteVacancy(@AuthenticationPrincipal User user, @RequestBody VacancyDeleteDTO vacancyDeleteDTO) {
+        if(vacancyService.deleteVacancyById(user, vacancyDeleteDTO.getVacancyId())) {
             return new ResponseEntity<>("Vacancy removed!", HttpStatus.OK);
         }
         return new ResponseEntity<>("Vacancy didn't remove!", HttpStatus.BAD_REQUEST);

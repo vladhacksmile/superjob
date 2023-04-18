@@ -23,7 +23,7 @@ public class UserDetailsImpl implements UserDetails {
     }
 
     public static UserDetailsImpl build(User user){
-        return new UserDetailsImpl(user.getId(),user.getUsername(),user.getPassword());
+        return new UserDetailsImpl(user.getId(),user.getMail(),user.getPassword());
     }
 
     @Override

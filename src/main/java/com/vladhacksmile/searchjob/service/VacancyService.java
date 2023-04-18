@@ -4,14 +4,10 @@ import com.vladhacksmile.searchjob.dto.ChangeStatusDTO;
 import com.vladhacksmile.searchjob.dto.VacancyDTO;
 import com.vladhacksmile.searchjob.dto.ResponseVacancyDTO;
 import com.vladhacksmile.searchjob.dto.SearchDTO;
-import com.vladhacksmile.searchjob.entities.Account;
-import com.vladhacksmile.searchjob.entities.Response;
-import com.vladhacksmile.searchjob.entities.Resume;
-import com.vladhacksmile.searchjob.entities.Vacancy;
+import com.vladhacksmile.searchjob.entities.*;
 import com.vladhacksmile.searchjob.enums.ResumeStatus;
 import com.vladhacksmile.searchjob.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -23,9 +19,6 @@ public class VacancyService {
 
     @Autowired
     VacancyRepository vacancyRepository;
-
-    @Autowired
-    AccountRepository accountRepository;
 
     @Autowired
     ResumeRepository resumeRepository;
@@ -52,21 +45,17 @@ public class VacancyService {
         }
     }
 
-    public Vacancy addVacancy(VacancyDTO vacancyDTO) {
+    public Vacancy addVacancy(User user, VacancyDTO vacancyDTO) {
         Vacancy vacancy = new Vacancy();
-        Optional<Account> optionalUser = accountRepository.findById(vacancyDTO.getUserId());
-        if(optionalUser.isPresent()) {
-            vacancy.setAccount(optionalUser.get());
-            vacancy.setName(vacancyDTO.getName());
-            vacancy.setSalary(vacancyDTO.getSalary());
-            vacancy.setInformation(vacancyDTO.getInformation());
-            vacancyRepository.save(vacancy);
-            return vacancy;
-        }
-        return null;
+        vacancy.setUser(user);
+        vacancy.setName(vacancyDTO.getName());
+        vacancy.setSalary(vacancyDTO.getSalary());
+        vacancy.setInformation(vacancyDTO.getInformation());
+        vacancyRepository.save(vacancy);
+        return vacancy;
     }
 
-    public boolean deleteVacancyById(long id) {
+    public boolean deleteVacancyById(User user, long id) {
         Vacancy vacancy = getVacancyById(id);
         if(vacancy != null) {
             vacancyRepository.deleteById(id);
@@ -76,7 +65,7 @@ public class VacancyService {
         }
     }
 
-    public boolean updateVacancy(VacancyDTO vacancyDTO) {
+    public boolean updateVacancy(User user, VacancyDTO vacancyDTO) {
         Vacancy vacancy = getVacancyById(vacancyDTO.getVacancyId());
         if(vacancy != null) {
             vacancy.setName(vacancyDTO.getName());

@@ -2,7 +2,7 @@ package com.vladhacksmile.searchjob.service;
 
 import com.vladhacksmile.searchjob.dto.ResumeDTO;
 import com.vladhacksmile.searchjob.dto.SearchDTO;
-import com.vladhacksmile.searchjob.entities.Account;
+import com.vladhacksmile.searchjob.entities.User;
 import com.vladhacksmile.searchjob.entities.Response;
 import com.vladhacksmile.searchjob.entities.Resume;
 import com.vladhacksmile.searchjob.entities.Vacancy;
@@ -20,9 +20,6 @@ public class ResumeService {
     ResumeRepository resumeRepository;
 
     @Autowired
-    AccountRepository accountRepository;
-
-    @Autowired
     VacancyRepository vacancyRepository;
 
     @Autowired
@@ -37,20 +34,16 @@ public class ResumeService {
         }
     }
 
-    public Resume addResume(ResumeDTO resumeDTO) {
+    public Resume addResume(User user, ResumeDTO resumeDTO) {
         Resume resume = new Resume();
-        Optional<Account> optionalUser = accountRepository.findById(resumeDTO.getUserId());
-        if(optionalUser.isPresent()) {
-            resume.setAccount(optionalUser.get());
-            resume.setSpecialization(resumeDTO.getSpecialization());
-            resume.setDescription(resumeDTO.getDescription());
-            resumeRepository.save(resume);
-            return resume;
-        }
-        return null;
+        resume.setUser(user);
+        resume.setSpecialization(resumeDTO.getSpecialization());
+        resume.setDescription(resumeDTO.getDescription());
+        resumeRepository.save(resume);
+        return resume;
     }
 
-    public boolean updateResume(ResumeDTO resumeDTO) {
+    public boolean updateResume(User user, ResumeDTO resumeDTO) {
         Resume resume = getResumeById(resumeDTO.getResumeId());
         if(resume != null) {
             resume.setSpecialization(resumeDTO.getSpecialization());
@@ -61,7 +54,7 @@ public class ResumeService {
         return false;
     }
 
-    public boolean deleteResumeById(long id) {
+    public boolean deleteResumeById(User user, long id) {
         Resume resume = getResumeById(id);
         if(resume != null) {
             resumeRepository.deleteById(id);
