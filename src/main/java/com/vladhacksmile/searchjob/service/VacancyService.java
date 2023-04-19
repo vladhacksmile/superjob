@@ -12,6 +12,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
+import javax.transaction.NotSupportedException;
+import javax.transaction.SystemException;
+import javax.transaction.UserTransaction;
 import java.util.*;
 
 @Service
@@ -25,6 +29,9 @@ public class VacancyService {
 
     @Autowired
     ResponseRepository responseRepository;
+
+    @Resource
+    UserTransaction userTransaction;
 
 
     public Vacancy getVacancyById(long id) {
@@ -90,27 +97,8 @@ public class VacancyService {
     }
 
     public List<Resume> searchResume(SearchDTO searchDTO) {
-        Pageable pageable = PageRequest.of(searchDTO.getOffset() + 1, 10);
+        Pageable pageable = PageRequest.of(searchDTO.getOffset() - 1, 10);
         return resumeRepository.findAllBySpecializationContains(searchDTO.getName(), pageable);
-//        int fromIndex = (searchDTO.getOffset() - 1) * 10;
-//        String name = searchDTO.getName();
-//        List<Resume> resumeList = resumeRepository.findAll();
-//        List<Resume> resumesResult = new ArrayList<>();
-//
-//        for(Resume resume: resumeList) {
-//            if (resume.getSpecialization().contains(name)) {
-//                resumesResult.add(resume);
-//            } else if (resume.getDescription().contains(name)) {
-//                resumesResult.add(resume);
-//            }
-//        }
-//
-//        List<Resume> result = new ArrayList<>();
-//        try {
-//            result = resumesResult.subList(fromIndex, Math.min(fromIndex + 10, resumesResult.size()));
-//        } catch (IllegalArgumentException ignored) {}
-//
-//        return result;
     }
 
     public List<Response> reviewing(Long id) {
@@ -119,15 +107,25 @@ public class VacancyService {
     }
 
     public boolean changeStatus(ChangeStatusDTO changeStatusDTO) {
-        Resume resume = getResumeById(changeStatusDTO.getResumeId());
-        Vacancy vacancy = getVacancyById(changeStatusDTO.getVacancyId());
-        if(resume != null && vacancy != null) {
-            Response response = responseRepository.findByVacancyAndResume(vacancy, resume);
-            response.setResumeStatus(changeStatusDTO.getResumeStatus());
-            responseRepository.save(response);
-            return true;
-        } else {
-            return false;
+        try {
+            userTransaction.begin();
+            Resume resume = getResumeById(changeStatusDTO.getResumeId());
+            Vacancy vacancy = getVacancyById(changeStatusDTO.getVacancyId());
+            if (resume != null && vacancy != null) {
+                Response response = responseRepository.findByVacancyAndResume(vacancy, resume);
+                response.setResumeStatus(changeStatusDTO.getResumeStatus());
+                responseRepository.save(response);
+                userTransaction.commit();
+                return true;
+            }
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            try {
+                userTransaction.rollback();
+            } catch (Exception ex) {
+                System.err.println(ex.getMessage());
+            }
         }
+        return false;
     }
 }
