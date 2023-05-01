@@ -12,9 +12,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import org.springframework.transaction.support.TransactionTemplate;
+
 import javax.annotation.Resource;
 import javax.transaction.NotSupportedException;
 import javax.transaction.SystemException;
+import javax.transaction.Transactional;
 import javax.transaction.UserTransaction;
 import java.util.*;
 
@@ -23,6 +26,9 @@ public class VacancyService {
 
     @Autowired
     VacancyRepository vacancyRepository;
+
+    @Autowired
+    TransactionTemplate transactionTemplate;
 
     @Autowired
     ResumeRepository resumeRepository;
@@ -106,26 +112,43 @@ public class VacancyService {
         return responseRepository.findAllByVacancy(vacancy);
     }
 
+//    public boolean changeStatus(ChangeStatusDTO changeStatusDTO) {
+//        try {
+//            userTransaction.begin();
+//            Resume resume = getResumeById(changeStatusDTO.getResumeId());
+//            Vacancy vacancy = getVacancyById(changeStatusDTO.getVacancyId());
+//            if (resume != null && vacancy != null) {
+//                Response response = responseRepository.findByVacancyAndResume(vacancy, resume);
+//                response.setResumeStatus(changeStatusDTO.getResumeStatus());
+//                responseRepository.save(response);
+//                userTransaction.commit();
+//                return true;
+//            }
+//        } catch (Exception e) {
+//            System.err.println(e.getMessage());
+//            try {
+//                userTransaction.rollback();
+//            } catch (Exception ex) {
+//                System.err.println(ex.getMessage());
+//            }
+//        }
+//        return false;
+//    }
+    
     public boolean changeStatus(ChangeStatusDTO changeStatusDTO) {
-        try {
-            userTransaction.begin();
-            Resume resume = getResumeById(changeStatusDTO.getResumeId());
-            Vacancy vacancy = getVacancyById(changeStatusDTO.getVacancyId());
-            if (resume != null && vacancy != null) {
-                Response response = responseRepository.findByVacancyAndResume(vacancy, resume);
-                response.setResumeStatus(changeStatusDTO.getResumeStatus());
-                responseRepository.save(response);
-                userTransaction.commit();
-                return true;
-            }
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
-            try {
-                userTransaction.rollback();
-            } catch (Exception ex) {
-                System.err.println(ex.getMessage());
-            }
-        }
-        return false;
+        return Boolean.TRUE.equals(transactionTemplate.execute(
+                status -> {
+                    Resume resume = getResumeById(changeStatusDTO.getResumeId());
+                    Vacancy vacancy = getVacancyById(changeStatusDTO.getVacancyId());
+                    if (resume != null && vacancy != null) {
+                        Response response = responseRepository.findByVacancyAndResume(vacancy, resume);
+                        response.setResumeStatus(changeStatusDTO.getResumeStatus());
+                        responseRepository.save(response);
+                        return true;
+
+                    }
+                    return false;
+                }
+        ));
     }
 }
