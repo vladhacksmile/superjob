@@ -1,6 +1,7 @@
 package com.vladhacksmile.searchjob.service.auth;
 
 import com.vladhacksmile.searchjob.entities.User;
+import com.vladhacksmile.searchjob.security.UserDetailsImpl;
 import com.vladhacksmile.searchjob.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,7 +20,9 @@ public class UserDetailsImplService implements UserDetailsService {
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByMail(username)
-                .orElseThrow(()->new UsernameNotFoundException("User not found with username: "+username));
+        User user = userRepository.findByMail(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with username: "+username));
+
+        return UserDetailsImpl.build(user);
     }
 }

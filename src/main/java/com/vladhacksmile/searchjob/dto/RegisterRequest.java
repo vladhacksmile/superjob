@@ -1,5 +1,6 @@
 package com.vladhacksmile.searchjob.dto;
 
+import com.vladhacksmile.searchjob.entities.Role;
 import com.vladhacksmile.searchjob.enums.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

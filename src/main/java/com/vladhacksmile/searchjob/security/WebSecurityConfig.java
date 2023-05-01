@@ -2,7 +2,7 @@ package com.vladhacksmile.searchjob.security;
 
 import com.vladhacksmile.searchjob.security.jwt.AuthEntryPointJwt;
 import com.vladhacksmile.searchjob.security.jwt.AuthTokenFilter;
-import com.vladhacksmile.searchjob.service.auth.UserDetailsServiceImpl;
+import com.vladhacksmile.searchjob.service.auth.UserDetailsImplService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,7 +23,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    UserDetailsServiceImpl userDetailsService;
+    UserDetailsImplService userDetailsService;
 
     @Autowired
     private AuthEntryPointJwt authEntryPointJwt;
@@ -57,6 +57,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/api/auth/register").permitAll()
                 .antMatchers("/api/auth/login").permitAll()
+                .antMatchers("/api/resumes/**").hasRole("EMPLOYER")
+                .antMatchers("/api/vacancies/**").hasRole("APPLICANT")
                 .anyRequest().authenticated();
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);

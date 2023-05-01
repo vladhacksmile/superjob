@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
@@ -13,7 +14,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
-import java.util.Collection;
+import java.util.*;
 
 @NoArgsConstructor
 @Setter
@@ -24,11 +25,10 @@ import java.util.Collection;
         uniqueConstraints = {
                 @UniqueConstraint(columnNames = "mail")
         })
-public class User implements UserDetails {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private UserRole role;
     @NotEmpty(message = "Name should not be empty!")
     @Size(min = 2, message = "Name should be min 2 symbols!")
     private String name;
@@ -47,16 +47,13 @@ public class User implements UserDetails {
     private String mail;
     @JsonIgnore
     private String password;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles;
 
-//    @OneToMany(targetEntity = Resume.class, mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-//    @JsonIgnore
-//    private Set<Resume> resume;
-//    @OneToMany(targetEntity = Vacancy.class, mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-//    @JsonIgnore
-//    private Set<Vacancy> vacancy;
-
-    public User(UserRole role, String name, String surname, String patronymic, int age, String number, String mail, String password) {
-        this.role = role;
+    public User(String name, String surname, String patronymic, int age, String number, String mail, String password, Set<Role> roles) {
         this.name = name;
         this.surname = surname;
         this.patronymic = patronymic;
@@ -64,37 +61,6 @@ public class User implements UserDetails {
         this.number = number;
         this.mail = mail;
         this.password = password;
-//        this.resume = resume;
-//        this.vacancy = vacancy;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
-    }
-
-    @Override
-    public String getUsername() {
-        return mail;
+        this.roles = roles;
     }
 }

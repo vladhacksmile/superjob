@@ -1,7 +1,6 @@
 package com.vladhacksmile.searchjob.security.jwt;
 
 import com.vladhacksmile.searchjob.entities.User;
-import com.vladhacksmile.searchjob.service.auth.UserDetailsServiceImpl;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
