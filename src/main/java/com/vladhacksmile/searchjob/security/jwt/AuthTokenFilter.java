@@ -1,5 +1,6 @@
 package com.vladhacksmile.searchjob.security.jwt;
 
+import com.vladhacksmile.searchjob.entities.User;
 import com.vladhacksmile.searchjob.service.auth.UserDetailsImplService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -31,7 +32,7 @@ public class AuthTokenFilter extends OncePerRequestFilter implements Filter {
             if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
                 String username = jwtUtils.getUserNameFromJwtToken(jwt);
 
-                UserDetails userDetails = userDetailsImplService.loadUserByUsername(username);
+                User userDetails = userDetailsImplService.loadUserByUsername(username);
                 UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 

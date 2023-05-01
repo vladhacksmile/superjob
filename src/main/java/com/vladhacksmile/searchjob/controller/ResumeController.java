@@ -7,11 +7,11 @@ import com.vladhacksmile.searchjob.entities.Response;
 import com.vladhacksmile.searchjob.entities.Resume;
 import com.vladhacksmile.searchjob.entities.User;
 import com.vladhacksmile.searchjob.entities.Vacancy;
-import com.vladhacksmile.searchjob.security.UserDetailsImpl;
 import com.vladhacksmile.searchjob.service.ResumeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,7 +32,7 @@ public class ResumeController {
     }
 
     @DeleteMapping
-    public ResponseEntity<?> deleteResume(@AuthenticationPrincipal UserDetailsImpl user, @RequestBody ResumeDeleteDTO resumeDeleteDTO) {
+    public ResponseEntity<?> deleteResume(@AuthenticationPrincipal User user, @RequestBody ResumeDeleteDTO resumeDeleteDTO) {
         if(resumeService.deleteResumeById(user, resumeDeleteDTO.getResumeId())) {
             return new ResponseEntity<>("Resume removed!", HttpStatus.OK);
         }
@@ -40,7 +40,7 @@ public class ResumeController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createResume(@AuthenticationPrincipal UserDetailsImpl user, @RequestBody ResumeDTO resumeDTO) {
+    public ResponseEntity<?> createResume(@AuthenticationPrincipal User user, @RequestBody ResumeDTO resumeDTO) {
         Resume resume = resumeService.addResume(user, resumeDTO);
         if (resume != null) {
             return new ResponseEntity<>(resume, HttpStatus.OK);
@@ -49,7 +49,7 @@ public class ResumeController {
     }
 
     @PutMapping
-    public ResponseEntity<?> updateResume(@AuthenticationPrincipal UserDetailsImpl user, @RequestBody ResumeDTO resumeDTO) {
+    public ResponseEntity<?> updateResume(@AuthenticationPrincipal User user, @RequestBody ResumeDTO resumeDTO) {
         if(resumeService.updateResume(user, resumeDTO)) {
             return new ResponseEntity<>("Resume updated!", HttpStatus.OK);
         }

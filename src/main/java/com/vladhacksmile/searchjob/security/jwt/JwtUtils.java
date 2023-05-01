@@ -20,7 +20,6 @@ public class JwtUtils {
     private int jwtExpirationMs;
 
     public String generateJwtToken(Authentication authentication) {
-
         User userPrincipal = (User) authentication.getPrincipal();
 
         return Jwts.builder().setSubject((userPrincipal.getMail())).setIssuedAt(new Date())

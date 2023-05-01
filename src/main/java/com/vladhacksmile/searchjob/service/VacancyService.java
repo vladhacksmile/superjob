@@ -36,9 +36,6 @@ public class VacancyService {
     @Autowired
     ResponseRepository responseRepository;
 
-    @Resource
-    UserTransaction userTransaction;
-
 
     public Vacancy getVacancyById(long id) {
         Optional<Vacancy> vacancyOptional = vacancyRepository.findById(id);

@@ -7,7 +7,6 @@ import com.vladhacksmile.searchjob.entities.Response;
 import com.vladhacksmile.searchjob.entities.Resume;
 import com.vladhacksmile.searchjob.entities.Vacancy;
 import com.vladhacksmile.searchjob.repository.*;
-import com.vladhacksmile.searchjob.security.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -35,16 +34,16 @@ public class ResumeService {
         }
     }
 
-    public Resume addResume(UserDetailsImpl user, ResumeDTO resumeDTO) {
+    public Resume addResume(User user, ResumeDTO resumeDTO) {
         Resume resume = new Resume();
-        resume.setUser(null); // TODO
+        resume.setUser(user);
         resume.setSpecialization(resumeDTO.getSpecialization());
         resume.setDescription(resumeDTO.getDescription());
         resumeRepository.save(resume);
         return resume;
     }
 
-    public boolean updateResume(UserDetailsImpl user, ResumeDTO resumeDTO) {
+    public boolean updateResume(User user, ResumeDTO resumeDTO) {
         Resume resume = getResumeById(resumeDTO.getResumeId());
         if(resume != null) {
             resume.setSpecialization(resumeDTO.getSpecialization());
@@ -55,7 +54,7 @@ public class ResumeService {
         return false;
     }
 
-    public boolean deleteResumeById(UserDetailsImpl user, long id) {
+    public boolean deleteResumeById(User user, long id) {
         Resume resume = getResumeById(id);
         if(resume != null) {
             resumeRepository.deleteById(id);

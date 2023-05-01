@@ -7,21 +7,16 @@ import com.vladhacksmile.searchjob.dto.MessageResponse;
 import com.vladhacksmile.searchjob.entities.User;
 import com.vladhacksmile.searchjob.repository.RoleRepository;
 import com.vladhacksmile.searchjob.repository.UserRepository;
-import com.vladhacksmile.searchjob.security.UserDetailsImpl;
 import com.vladhacksmile.searchjob.security.jwt.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
-import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -48,7 +43,7 @@ public class UserService {
         } else {
             User user = new User(registerRequest.getName(), registerRequest.getSurname(), registerRequest.getPatronymic(),
                     registerRequest.getAge(), registerRequest.getNumber(), registerRequest.getMail(),
-                    passwordEncoder.encode(registerRequest.getPassword()), Collections.singleton(roleRepository.findByName(registerRequest.getRole())));
+                    passwordEncoder.encode(registerRequest.getPassword()), registerRequest.getRole());
             userRepository.save(user);
             return new MessageResponse("Okay");
         }
@@ -63,10 +58,10 @@ public class UserService {
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
             String jwt = jwtUtils.generateJwtToken(authentication);
-            UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+            User userDetails = (User) authentication.getPrincipal();
             return new JwtResponse(jwt,
-                    1L,
-                    userDetails.getMail()); // TODO
+                    userDetails.getId(),
+                    userDetails.getMail());
         } else {
             return new JwtResponse("ERROR",
                     1L,
