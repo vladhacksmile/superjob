@@ -7,12 +7,13 @@ import lombok.Setter;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 
 @Getter
 @Setter
 @AllArgsConstructor
 public class ResumeDTO {
-//    @Min(1)
+    @Positive
     private Long resumeId;
     @NotNull
     @NotEmpty

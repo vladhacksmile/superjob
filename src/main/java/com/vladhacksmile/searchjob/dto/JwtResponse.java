@@ -15,10 +15,12 @@ public class JwtResponse {
     private String type = "Bearer";
     private Long id;
     private String username;
+    private String refreshToken;
 
-    public JwtResponse(String token, Long id, String username) {
+    public JwtResponse(String token, Long id, String username, String refreshToken) {
         this.id =id;
         this.token = token;
         this.username = username;
+        this.refreshToken = refreshToken;
     }
 }

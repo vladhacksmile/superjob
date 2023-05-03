@@ -3,10 +3,13 @@ package com.vladhacksmile.searchjob.controller;
 import com.vladhacksmile.searchjob.dto.AuthRequest;
 import com.vladhacksmile.searchjob.dto.RegisterRequest;
 import com.vladhacksmile.searchjob.dto.MessageResponse;
+import com.vladhacksmile.searchjob.dto.TokenRefreshDTO;
 import com.vladhacksmile.searchjob.service.auth.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -28,5 +31,10 @@ public class AuthController {
         } catch (Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
+    }
+
+    @PostMapping("/refreshtoken")
+    public ResponseEntity<?> refreshToken(@Valid @RequestBody TokenRefreshDTO request) {
+        return ResponseEntity.ok(userService.refreshToken(request));
     }
 }

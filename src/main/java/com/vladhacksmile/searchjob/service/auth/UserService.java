@@ -1,22 +1,31 @@
 package com.vladhacksmile.searchjob.service.auth;
 
-import com.vladhacksmile.searchjob.dto.AuthRequest;
-import com.vladhacksmile.searchjob.dto.RegisterRequest;
-import com.vladhacksmile.searchjob.dto.JwtResponse;
-import com.vladhacksmile.searchjob.dto.MessageResponse;
+import com.vladhacksmile.searchjob.controller.TokenRefreshException;
+import com.vladhacksmile.searchjob.dto.*;
+import com.vladhacksmile.searchjob.entities.RefreshToken;
 import com.vladhacksmile.searchjob.entities.User;
+import com.vladhacksmile.searchjob.repository.RefreshTokenRepository;
 import com.vladhacksmile.searchjob.repository.RoleRepository;
 import com.vladhacksmile.searchjob.repository.UserRepository;
 import com.vladhacksmile.searchjob.security.jwt.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
+import javax.validation.Valid;
+import java.time.Instant;
 import java.util.Collections;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class UserService {
@@ -35,6 +44,12 @@ public class UserService {
 
     @Autowired
     private RoleRepository roleRepository;
+
+    @Autowired
+    private RefreshTokenRepository refreshTokenRepository;
+
+    @Value("${app.jwtRefreshExpirationMs}")
+    private Long refreshTokenDurationMs;
 
     public MessageResponse register(RegisterRequest registerRequest) {
 
@@ -59,13 +74,57 @@ public class UserService {
             SecurityContextHolder.getContext().setAuthentication(authentication);
             String jwt = jwtUtils.generateJwtToken(authentication);
             User userDetails = (User) authentication.getPrincipal();
+            RefreshToken refreshToken = createRefreshToken(userDetails.getId());
             return new JwtResponse(jwt,
                     userDetails.getId(),
-                    userDetails.getMail());
+                    userDetails.getMail(), refreshToken.getToken());
         } else {
             return new JwtResponse("ERROR",
                     1L,
-                    "ERROR");
+                    "ERROR", "INCORRECT");
         }
+    }
+
+    public Optional<RefreshToken> findByToken(String token) {
+        return refreshTokenRepository.findByToken(token);
+    }
+
+    public TokenRefreshResponse refreshToken(TokenRefreshDTO request) {
+        String requestRefreshToken = request.getRefreshToken();
+
+        return findByToken(requestRefreshToken)
+                .map(this::verifyExpiration)
+                .map(RefreshToken::getUser)
+                .map(user -> {
+                    String token = jwtUtils.generateTokenFromUsername(user.getUsername());
+                    return new TokenRefreshResponse(token, requestRefreshToken);
+                })
+                .orElseThrow(() -> new TokenRefreshException(requestRefreshToken,
+                        "Refresh token is not in database!"));
+    }
+
+    public RefreshToken createRefreshToken(Long userId) {
+        RefreshToken refreshToken = new RefreshToken();
+
+        refreshToken.setUser(userRepository.findById(userId).get());
+        refreshToken.setExpiryDate(Instant.now().plusMillis(refreshTokenDurationMs));
+        refreshToken.setToken(UUID.randomUUID().toString());
+
+        refreshToken = refreshTokenRepository.save(refreshToken);
+        return refreshToken;
+    }
+
+    public RefreshToken verifyExpiration(RefreshToken token) {
+        if (token.getExpiryDate().compareTo(Instant.now()) < 0) {
+            refreshTokenRepository.delete(token);
+            throw new TokenRefreshException(token.getToken(), "Refresh token was expired. Please make a new signin request");
+        }
+
+        return token;
+    }
+
+    @Transactional
+    public int deleteTokenByUserId(Long userId) {
+        return refreshTokenRepository.deleteByUser(userRepository.findById(userId).get());
     }
 }

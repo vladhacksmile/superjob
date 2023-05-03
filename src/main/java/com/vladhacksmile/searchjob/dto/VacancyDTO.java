@@ -7,14 +7,13 @@ import lombok.Setter;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 
 @Getter
 @Setter
 @AllArgsConstructor
 public class VacancyDTO {
-    @Min(1)
-    private Long userId;
-    @Min(1)
+    @Positive
     private Long vacancyId;
     @Min(value = 0, message = "Salary should be greater than 0!")
     private int salary;

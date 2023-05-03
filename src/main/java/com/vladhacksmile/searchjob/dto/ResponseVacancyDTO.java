@@ -5,13 +5,14 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.Min;
+import javax.validation.constraints.Positive;
 
 @Getter
 @Setter
 @AllArgsConstructor
 public class ResponseVacancyDTO {
-    @Min(1)
+    @Positive
     private Long vacancyId;
-    @Min(1)
+    @Positive
     private Long resumeId;
 }

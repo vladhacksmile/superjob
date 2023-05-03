@@ -64,8 +64,11 @@ public class WebSecurityConfig {
                 .antMatchers("/v3/api-docs/**", "/configuration/ui", "/swagger-resources/**", "/configuration/**", "/swagger-ui.html", "/webjars/**", "/swagger-ui/**").permitAll()
                 .antMatchers("/api/auth/register").permitAll()
                 .antMatchers("/api/auth/login").permitAll()
+                .antMatchers("/api/auth/refreshtoken").permitAll()
                 .antMatchers("/api/resumes/**").hasAuthority(UserRole.EMPLOYER.getName())
                 .antMatchers("/api/vacancies/**").hasAuthority(UserRole.APPLICANT.getName())
+                .antMatchers("/api/vacancies/search/**").permitAll()
+                .antMatchers("/api/resumes/search/**").permitAll()
                 .anyRequest().authenticated()
                 )).httpBasic(withDefaults());
 

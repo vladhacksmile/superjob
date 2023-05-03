@@ -7,14 +7,15 @@ import lombok.Setter;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 
 @AllArgsConstructor
 @Getter
 @Setter
 public class ChangeStatusDTO {
-    @Min(1)
+    @Positive
     private Long resumeId;
-    @Min(1)
+    @Positive
     private Long vacancyId;
     @NotNull
     private ResumeStatus resumeStatus;
