@@ -1,4 +1,4 @@
-package com.vladhacksmile.searchjob.dto;
+package com.vladhacksmile.searchjob.dto.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

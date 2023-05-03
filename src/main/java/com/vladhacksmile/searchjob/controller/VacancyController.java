@@ -1,12 +1,15 @@
 package com.vladhacksmile.searchjob.controller;
 
 import com.vladhacksmile.searchjob.dto.*;
+import com.vladhacksmile.searchjob.dto.resume.ChangeStatusDTO;
+import com.vladhacksmile.searchjob.dto.vacancy.ResponseVacancyDTO;
+import com.vladhacksmile.searchjob.dto.vacancy.VacancyDTO;
+import com.vladhacksmile.searchjob.dto.vacancy.VacancyDeleteDTO;
 import com.vladhacksmile.searchjob.entities.Response;
 import com.vladhacksmile.searchjob.entities.Resume;
 import com.vladhacksmile.searchjob.entities.User;
 import com.vladhacksmile.searchjob.entities.Vacancy;
 import com.vladhacksmile.searchjob.service.VacancyService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -15,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Set;
 
 @RestController
 @RequestMapping("/api/vacancies")

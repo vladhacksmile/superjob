@@ -1,4 +1,4 @@
-package com.vladhacksmile.searchjob.dto;
+package com.vladhacksmile.searchjob.dto.resume;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,11 +8,10 @@ import lombok.Setter;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Positive;
 
+@Data
 @Getter
 @Setter
-@AllArgsConstructor
-@Data
-public class VacancyDeleteDTO {
+public class ResumeDeleteDTO {
     @Positive
-    private Long vacancyId;
+    private Long resumeId;
 }

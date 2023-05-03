@@ -1,6 +1,6 @@
 package com.vladhacksmile.searchjob.service;
 
-import com.vladhacksmile.searchjob.dto.ResumeDTO;
+import com.vladhacksmile.searchjob.dto.resume.ResumeDTO;
 import com.vladhacksmile.searchjob.dto.SearchDTO;
 import com.vladhacksmile.searchjob.entities.User;
 import com.vladhacksmile.searchjob.entities.Response;

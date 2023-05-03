@@ -1,8 +1,8 @@
 package com.vladhacksmile.searchjob.service;
 
-import com.vladhacksmile.searchjob.dto.ChangeStatusDTO;
-import com.vladhacksmile.searchjob.dto.VacancyDTO;
-import com.vladhacksmile.searchjob.dto.ResponseVacancyDTO;
+import com.vladhacksmile.searchjob.dto.resume.ChangeStatusDTO;
+import com.vladhacksmile.searchjob.dto.vacancy.VacancyDTO;
+import com.vladhacksmile.searchjob.dto.vacancy.ResponseVacancyDTO;
 import com.vladhacksmile.searchjob.dto.SearchDTO;
 import com.vladhacksmile.searchjob.entities.*;
 import com.vladhacksmile.searchjob.enums.ResumeStatus;
@@ -14,11 +14,6 @@ import org.springframework.stereotype.Service;
 
 import org.springframework.transaction.support.TransactionTemplate;
 
-import javax.annotation.Resource;
-import javax.transaction.NotSupportedException;
-import javax.transaction.SystemException;
-import javax.transaction.Transactional;
-import javax.transaction.UserTransaction;
 import java.util.*;
 
 @Service
@@ -93,7 +88,7 @@ public class VacancyService {
                 status -> {
                     Vacancy vacancy = getVacancyById(responseVacancyDTO.getVacancyId());
                     Resume resume = getResumeById(responseVacancyDTO.getResumeId());
-                    if(vacancy == null || resume == null && responseRepository.findByVacancyAndResume(vacancy, resume) != null) {
+                    if(vacancy == null || resume == null || responseRepository.findByVacancyAndResume(vacancy, resume) != null) {
                         return false;
                     } else {
                         Response response = new Response(resume, vacancy, ResumeStatus.REVIEW);

@@ -65,10 +65,11 @@ public class WebSecurityConfig {
                 .antMatchers("/api/auth/register").permitAll()
                 .antMatchers("/api/auth/login").permitAll()
                 .antMatchers("/api/auth/refreshtoken").permitAll()
-                .antMatchers("/api/resumes/**").hasAuthority(UserRole.EMPLOYER.getName())
-                .antMatchers("/api/vacancies/**").hasAuthority(UserRole.APPLICANT.getName())
                 .antMatchers("/api/vacancies/search/**").permitAll()
                 .antMatchers("/api/resumes/search/**").permitAll()
+                .antMatchers("/api/vacancies/response").hasAuthority(UserRole.EMPLOYER.getName())
+                .antMatchers("/api/resumes/**").hasAuthority(UserRole.EMPLOYER.getName())
+                .antMatchers("/api/vacancies/**").hasAuthority(UserRole.APPLICANT.getName())
                 .anyRequest().authenticated()
                 )).httpBasic(withDefaults());
 

@@ -1,4 +1,4 @@
-package com.vladhacksmile.searchjob.dto;
+package com.vladhacksmile.searchjob.dto.resume;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,14 +12,13 @@ import javax.validation.constraints.Positive;
 @Getter
 @Setter
 @AllArgsConstructor
-public class VacancyDTO {
+public class ResumeDTO {
     @Positive
-    private Long vacancyId;
-    @Min(value = 0, message = "Salary should be greater than 0!")
-    private int salary;
-    @NotEmpty(message = "Name should not be empty!")
-    private String name;
-    @NotEmpty
+    private Long resumeId;
     @NotNull
-    private String information;
+    @NotEmpty
+    private String specialization;
+    @NotNull
+    @NotEmpty
+    private String description;
 }

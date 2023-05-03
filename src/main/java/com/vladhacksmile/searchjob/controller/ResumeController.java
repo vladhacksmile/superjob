@@ -1,17 +1,15 @@
 package com.vladhacksmile.searchjob.controller;
 
-import com.vladhacksmile.searchjob.dto.ResumeDTO;
-import com.vladhacksmile.searchjob.dto.ResumeDeleteDTO;
+import com.vladhacksmile.searchjob.dto.resume.ResumeDTO;
+import com.vladhacksmile.searchjob.dto.resume.ResumeDeleteDTO;
 import com.vladhacksmile.searchjob.dto.SearchDTO;
 import com.vladhacksmile.searchjob.entities.Response;
 import com.vladhacksmile.searchjob.entities.Resume;
 import com.vladhacksmile.searchjob.entities.User;
 import com.vladhacksmile.searchjob.entities.Vacancy;
 import com.vladhacksmile.searchjob.service.ResumeService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 

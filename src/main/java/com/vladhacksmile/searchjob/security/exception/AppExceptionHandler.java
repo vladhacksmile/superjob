@@ -1,4 +1,4 @@
-package com.vladhacksmile.searchjob.controller;
+package com.vladhacksmile.searchjob.security.exception;
 
 import com.vladhacksmile.searchjob.dto.MessageResponse;
 import org.springframework.http.HttpStatus;

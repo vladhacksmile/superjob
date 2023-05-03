@@ -1,4 +1,4 @@
-package com.vladhacksmile.searchjob.controller;
+package com.vladhacksmile.searchjob.security.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

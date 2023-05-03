@@ -1,9 +1,9 @@
 package com.vladhacksmile.searchjob.controller;
 
-import com.vladhacksmile.searchjob.dto.AuthRequest;
-import com.vladhacksmile.searchjob.dto.RegisterRequest;
+import com.vladhacksmile.searchjob.dto.auth.AuthRequest;
+import com.vladhacksmile.searchjob.dto.auth.RegisterRequest;
 import com.vladhacksmile.searchjob.dto.MessageResponse;
-import com.vladhacksmile.searchjob.dto.TokenRefreshDTO;
+import com.vladhacksmile.searchjob.dto.auth.refresh.TokenRefreshDTO;
 import com.vladhacksmile.searchjob.service.auth.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

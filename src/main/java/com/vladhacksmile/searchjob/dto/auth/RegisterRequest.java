@@ -1,4 +1,4 @@
-package com.vladhacksmile.searchjob.dto;
+package com.vladhacksmile.searchjob.dto.auth;
 
 import com.vladhacksmile.searchjob.entities.Role;
 import com.vladhacksmile.searchjob.enums.UserRole;
