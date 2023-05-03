@@ -87,16 +87,21 @@ public class VacancyService {
         return false;
     }
 
+
     public boolean responseVacancy(ResponseVacancyDTO responseVacancyDTO) {
-        Vacancy vacancy = getVacancyById(responseVacancyDTO.getVacancyId());
-        Resume resume = getResumeById(responseVacancyDTO.getResumeId());
-        if(vacancy == null || resume == null) {
-            return false;
-        } else {
-            Response response = new Response(resume, vacancy, ResumeStatus.REVIEW);
-            responseRepository.save(response);
-            return true;
-        }
+        return Boolean.TRUE.equals(transactionTemplate.execute(
+                status -> {
+                    Vacancy vacancy = getVacancyById(responseVacancyDTO.getVacancyId());
+                    Resume resume = getResumeById(responseVacancyDTO.getResumeId());
+                    if(vacancy == null || resume == null && responseRepository.findByVacancyAndResume(vacancy, resume) != null) {
+                        return false;
+                    } else {
+                        Response response = new Response(resume, vacancy, ResumeStatus.REVIEW);
+                        responseRepository.save(response);
+                        return true;
+                    }
+                }
+        ));
     }
 
     public List<Resume> searchResume(SearchDTO searchDTO) {
@@ -131,7 +136,7 @@ public class VacancyService {
 //        }
 //        return false;
 //    }
-    
+
     public boolean changeStatus(ChangeStatusDTO changeStatusDTO) {
         return Boolean.TRUE.equals(transactionTemplate.execute(
                 status -> {
