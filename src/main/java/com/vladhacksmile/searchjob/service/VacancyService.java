@@ -1,20 +1,26 @@
 package com.vladhacksmile.searchjob.service;
 
-import com.vladhacksmile.searchjob.dto.resume.ChangeStatusDTO;
-import com.vladhacksmile.searchjob.dto.vacancy.VacancyDTO;
-import com.vladhacksmile.searchjob.dto.vacancy.ResponseVacancyDTO;
 import com.vladhacksmile.searchjob.dto.SearchDTO;
-import com.vladhacksmile.searchjob.entities.*;
+import com.vladhacksmile.searchjob.dto.resume.ChangeStatusDTO;
+import com.vladhacksmile.searchjob.dto.vacancy.ResponseVacancyDTO;
+import com.vladhacksmile.searchjob.dto.vacancy.VacancyDTO;
+import com.vladhacksmile.searchjob.entities.Response;
+import com.vladhacksmile.searchjob.entities.Resume;
+import com.vladhacksmile.searchjob.entities.User;
+import com.vladhacksmile.searchjob.entities.Vacancy;
 import com.vladhacksmile.searchjob.enums.ResumeStatus;
-import com.vladhacksmile.searchjob.repository.*;
+import com.vladhacksmile.searchjob.repository.ResponseRepository;
+import com.vladhacksmile.searchjob.repository.ResumeRepository;
+import com.vladhacksmile.searchjob.repository.VacancyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
+import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.support.TransactionTemplate;
 
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class VacancyService {
@@ -82,8 +88,8 @@ public class VacancyService {
         return false;
     }
 
-
     public boolean responseVacancy(ResponseVacancyDTO responseVacancyDTO) {
+        transactionTemplate.setIsolationLevel(TransactionDefinition.ISOLATION_READ_COMMITTED);
         return Boolean.TRUE.equals(transactionTemplate.execute(
                 status -> {
                     Vacancy vacancy = getVacancyById(responseVacancyDTO.getVacancyId());

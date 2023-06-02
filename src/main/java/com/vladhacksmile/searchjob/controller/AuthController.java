@@ -1,19 +1,19 @@
 package com.vladhacksmile.searchjob.controller;
 
+import com.vladhacksmile.searchjob.dto.MessageResponse;
 import com.vladhacksmile.searchjob.dto.auth.AuthRequest;
 import com.vladhacksmile.searchjob.dto.auth.RegisterRequest;
-import com.vladhacksmile.searchjob.dto.MessageResponse;
 import com.vladhacksmile.searchjob.dto.auth.refresh.TokenRefreshDTO;
 import com.vladhacksmile.searchjob.service.auth.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/auth")
-@CrossOrigin(origins = "*", maxAge = 3600)
 public class AuthController {
 
     @Autowired
@@ -34,7 +34,7 @@ public class AuthController {
     }
 
     @PostMapping("/refreshtoken")
-    public ResponseEntity<?> refreshToken(@Valid @RequestBody TokenRefreshDTO request) {
+    public ResponseEntity<?> refreshToken(@RequestBody TokenRefreshDTO request) {
         return ResponseEntity.ok(userService.refreshToken(request));
     }
 }

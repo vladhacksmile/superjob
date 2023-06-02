@@ -7,6 +7,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
+
 import java.util.Date;
 
 
@@ -32,7 +33,7 @@ public class JwtUtils {
             Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(jwt);
             return true;
         } catch (MalformedJwtException | IllegalArgumentException e) {
-            System.err.println(e.getMessage());
+//            System.err.println(e.getMessage());
         }
 
         return false;

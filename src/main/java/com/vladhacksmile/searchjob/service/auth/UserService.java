@@ -1,17 +1,17 @@
 package com.vladhacksmile.searchjob.service.auth;
 
+import com.vladhacksmile.searchjob.dto.MessageResponse;
 import com.vladhacksmile.searchjob.dto.auth.AuthRequest;
 import com.vladhacksmile.searchjob.dto.auth.JwtResponse;
 import com.vladhacksmile.searchjob.dto.auth.RegisterRequest;
 import com.vladhacksmile.searchjob.dto.auth.refresh.TokenRefreshDTO;
 import com.vladhacksmile.searchjob.dto.auth.refresh.TokenRefreshResponse;
-import com.vladhacksmile.searchjob.security.exception.TokenRefreshException;
-import com.vladhacksmile.searchjob.dto.*;
 import com.vladhacksmile.searchjob.entities.RefreshToken;
 import com.vladhacksmile.searchjob.entities.User;
 import com.vladhacksmile.searchjob.repository.RefreshTokenRepository;
 import com.vladhacksmile.searchjob.repository.RoleRepository;
 import com.vladhacksmile.searchjob.repository.UserRepository;
+import com.vladhacksmile.searchjob.security.exception.TokenRefreshException;
 import com.vladhacksmile.searchjob.security.jwt.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,7 +21,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.Optional;
@@ -100,8 +99,10 @@ public class UserService {
                     return new TokenRefreshResponse(token, requestRefreshToken);
                 })
                 .orElseThrow(() -> new TokenRefreshException(requestRefreshToken,
-                        "Refresh token is not in database!"));
+                        "Refresh token is not correct!"));
     }
+
+    // HS256
 
     public RefreshToken createRefreshToken(Long userId) {
         RefreshToken refreshToken = new RefreshToken();
@@ -121,10 +122,5 @@ public class UserService {
         }
 
         return token;
-    }
-
-    @Transactional
-    public int deleteTokenByUserId(Long userId) {
-        return refreshTokenRepository.deleteByUser(userRepository.findById(userId).get());
     }
 }

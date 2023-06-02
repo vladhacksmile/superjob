@@ -14,8 +14,8 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.Collection;
+import java.util.Collections;
 
 @NoArgsConstructor
 @Setter
@@ -48,11 +48,6 @@ public class User implements UserDetails {
     private String mail;
     @JsonIgnore
     private String password;
-//    @ManyToMany(fetch = FetchType.EAGER)
-//    @JoinTable(name = "user_roles",
-//            joinColumns = @JoinColumn(name = "user_id"),
-//            inverseJoinColumns = @JoinColumn(name = "role_id"))
-//    private Set<Role> roles;
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
     private UserRole role;
@@ -70,9 +65,6 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-//        return roles.stream()
-//                .map(role -> new SimpleGrantedAuthority(role.getName().name()))
-//                .collect(Collectors.toList());
         return Collections.singleton(new SimpleGrantedAuthority(role.getName()));
     }
 
