@@ -2,13 +2,23 @@
   "components": [
     {
       "label": "Resume Id",
-      "type": "textfield",
+      "type": "number",
       "layout": {
-        "row": "Row_1d18jzh",
+        "row": "Row_01z2zr5",
         "columns": null
       },
-      "id": "Field_07ph442",
+      "id": "Field_1vtxw4j",
       "key": "resumeId"
+    },
+    {
+      "label": "Token",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_1k0o67r",
+        "columns": null
+      },
+      "id": "Field_19b7jhq",
+      "key": "accessToken"
     }
   ],
   "type": "default",

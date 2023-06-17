@@ -1,9 +1,6 @@
 package com.vladhacksmile.searchjob.security;
 
-import com.vladhacksmile.searchjob.security.jwt.AuthEntryPointJwt;
 import com.vladhacksmile.searchjob.security.jwt.AuthTokenFilter;
-import com.vladhacksmile.searchjob.service.auth.UserDetailsImplService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -19,11 +16,6 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class WebSecurityConfig {
 
-    @Autowired
-    UserDetailsImplService userDetailsService;
-
-    @Autowired
-    private AuthEntryPointJwt authEntryPointJwt;
 
     @Bean
     public AuthTokenFilter authenticationJwtTokenFilter() {
@@ -61,7 +53,6 @@ public class WebSecurityConfig {
 //                .antMatchers("/api/resumes/**").hasAuthority(UserRole.EMPLOYER.getName())
 //                .antMatchers("/api/vacancies/**").hasAuthority(UserRole.APPLICANT.getName())
 //                .anyRequest().authenticated()
-//                        .antMatchers("/camunda/**").hasAuthority()
                         .anyRequest().permitAll()
                 ));
 

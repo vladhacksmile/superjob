@@ -30,7 +30,7 @@ public class VacancyGetDelegate implements JavaDelegate {
     public void execute(DelegateExecution delegateExecution) throws Exception {
         try {
             User user = userService.authByToken(delegateExecution);
-            Long id = (Long) delegateExecution.getVariable("vacancyId");
+            long id = Long.parseLong(delegateExecution.getVariable("vacancyId").toString());
             Optional<Vacancy> vacancy = vacancyRepository.findById(id);
             ObjectMapper objectMapper = new ObjectMapper();
             if (vacancy.isPresent()) {

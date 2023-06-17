@@ -28,7 +28,7 @@ public class ResumeGetDelegate implements JavaDelegate {
     public void execute(DelegateExecution delegateExecution) throws Exception {
         try {
             User user = userService.authByToken(delegateExecution);
-            Long id = (Long) delegateExecution.getVariable("resumeId");
+            long id =  Long.parseLong(delegateExecution.getVariable("resumeId").toString());
             Optional<Resume> resumeOptional = resumeRepository.findById(id);
             ObjectMapper objectMapper = new ObjectMapper();
             if (resumeOptional.isPresent()) {

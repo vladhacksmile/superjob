@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_07ealhd" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.12.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.19.0">
+  <bpmn:collaboration id="Collaboration_0amado1">
+    <bpmn:participant id="Participant_1qng01h" processRef="resume_update" />
+  </bpmn:collaboration>
+  <bpmn:process id="resume_update" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>Flow_1t223bv</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:userTask id="Activity_0w2omis" name="Заполнение формы" camunda:formKey="camunda-forms:/forms/resume_update.form">
+      <bpmn:incoming>Flow_1t223bv</bpmn:incoming>
+      <bpmn:outgoing>Flow_12ibpjk</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:serviceTask id="Activity_04xou17" name="Обновление резюме" camunda:delegateExpression="#{resumeUpdate}">
+      <bpmn:incoming>Flow_12ibpjk</bpmn:incoming>
+      <bpmn:outgoing>Flow_1l8bugh</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:userTask id="Activity_054k732" name="Результат" camunda:formKey="camunda-forms:/forms/result.form">
+      <bpmn:incoming>Flow_1l8bugh</bpmn:incoming>
+      <bpmn:outgoing>Flow_1p46w5q</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:endEvent id="Event_0gez5r2">
+      <bpmn:incoming>Flow_1p46w5q</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1t223bv" sourceRef="StartEvent_1" targetRef="Activity_0w2omis" />
+    <bpmn:sequenceFlow id="Flow_12ibpjk" sourceRef="Activity_0w2omis" targetRef="Activity_04xou17" />
+    <bpmn:sequenceFlow id="Flow_1l8bugh" sourceRef="Activity_04xou17" targetRef="Activity_054k732" />
+    <bpmn:sequenceFlow id="Flow_1p46w5q" sourceRef="Activity_054k732" targetRef="Event_0gez5r2" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0amado1">
+      <bpmndi:BPMNShape id="Participant_1qng01h_di" bpmnElement="Participant_1qng01h" isHorizontal="true">
+        <dc:Bounds x="160" y="79" width="778" height="250" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="232" y="182" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0w2omis_di" bpmnElement="Activity_0w2omis">
+        <dc:Bounds x="320" y="160" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_04xou17_di" bpmnElement="Activity_04xou17">
+        <dc:Bounds x="480" y="160" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_054k732_di" bpmnElement="Activity_054k732">
+        <dc:Bounds x="640" y="160" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0gez5r2_di" bpmnElement="Event_0gez5r2">
+        <dc:Bounds x="802" y="182" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1t223bv_di" bpmnElement="Flow_1t223bv">
+        <di:waypoint x="268" y="200" />
+        <di:waypoint x="320" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_12ibpjk_di" bpmnElement="Flow_12ibpjk">
+        <di:waypoint x="420" y="200" />
+        <di:waypoint x="480" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1l8bugh_di" bpmnElement="Flow_1l8bugh">
+        <di:waypoint x="580" y="200" />
+        <di:waypoint x="640" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1p46w5q_di" bpmnElement="Flow_1p46w5q">
+        <di:waypoint x="740" y="200" />
+        <di:waypoint x="802" y="200" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

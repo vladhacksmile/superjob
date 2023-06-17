@@ -33,13 +33,14 @@ public class VacancyCreateDelegate implements JavaDelegate {
         try {
             User user = userService.authByToken(delegateExecution);
 
-            if (user.getRole() != UserRole.APPLICANT) throw new OperationNotPermitedException("Вы не работодатель");
+            if (user.getRole() != UserRole.EMPLOYER) throw new OperationNotPermitedException("Вы не работодатель");
 
-            int salary = (Integer) delegateExecution.getVariable("salary");
+            int salary = Integer.parseInt(delegateExecution.getVariable("salary").toString());
             String name = (String) delegateExecution.getVariable("name");
             String information = (String) delegateExecution.getVariable("information");
 
             vacancyService.addVacancy(user, new VacancyDTO(null, salary, name, information));
+            delegateExecution.setVariable("result", "Вакансия успешно создана");
             System.out.println(delegateExecution.getCurrentActivityName());
         } catch (Exception e) {
             throw new BpmnError("error", e.getMessage());

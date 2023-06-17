@@ -33,9 +33,9 @@ public class ResumeDeleteDelegate implements JavaDelegate {
         try {
             User user = userService.authByToken(delegateExecution);
 
-            if (user.getRole() != UserRole.EMPLOYER) throw new OperationNotPermitedException("Вы не соискатель");
+            if (user.getRole() != UserRole.APPLICANT) throw new OperationNotPermitedException("Вы не соискатель");
 
-            Long id = (Long) delegateExecution.getVariable("resumeId");
+            long id = Long.parseLong(delegateExecution.getVariable("resumeId").toString());
 
             Resume resume = getResumeById(id);
 
@@ -47,7 +47,7 @@ public class ResumeDeleteDelegate implements JavaDelegate {
                     delegateExecution.setVariable("result", "Нет прав");
                 }
             } else {
-                delegateExecution.setVariable("result", "'Элемента не существует");
+                delegateExecution.setVariable("result", "Элемента не существует");
             }
         } catch (Throwable throwable) {
             throw new BpmnError("error", throwable.getMessage());

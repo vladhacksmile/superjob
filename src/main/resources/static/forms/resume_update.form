@@ -29,6 +29,16 @@
       },
       "id": "Field_1kk8mw1",
       "key": "description"
+    },
+    {
+      "label": "Token",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_1k4fgg3",
+        "columns": null
+      },
+      "id": "Field_0gv2ctr",
+      "key": "accessToken"
     }
   ],
   "type": "default",

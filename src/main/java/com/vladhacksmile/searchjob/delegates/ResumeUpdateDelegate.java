@@ -32,9 +32,9 @@ public class ResumeUpdateDelegate implements JavaDelegate {
         try {
             User user = userService.authByToken(delegateExecution);
 
-            if (user.getRole() != UserRole.EMPLOYER) throw new OperationNotPermitedException("Вы не соискатель");
+            if (user.getRole() != UserRole.APPLICANT) throw new OperationNotPermitedException("Вы не соискатель");
 
-            Long resumeId = (Long) delegateExecution.getVariable("resumeId");
+            long resumeId = Long.parseLong(delegateExecution.getVariable("resumeId").toString());
             String specialization = (String) delegateExecution.getVariable("specialization");
             String description = (String) delegateExecution.getVariable("description");
             Resume resume = getResumeById(resumeId);

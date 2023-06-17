@@ -9,6 +9,16 @@
       },
       "id": "Field_1mfu7ex",
       "key": "resumeId"
+    },
+    {
+      "label": "Token",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_1jz11lm",
+        "columns": null
+      },
+      "id": "Field_1jx9x9b",
+      "key": "accessToken"
     }
   ],
   "type": "default",

@@ -32,9 +32,9 @@ public class VacancyDeleteDelegate implements JavaDelegate {
         try {
             User user = userService.authByToken(delegateExecution);
 
-            if (user.getRole() != UserRole.APPLICANT) throw new OperationNotPermitedException("Вы не работодатель");
+            if (user.getRole() != UserRole.EMPLOYER) throw new OperationNotPermitedException("Вы не работодатель");
 
-            Long id = (Long) delegateExecution.getVariable("vacancyId");
+            long id = Long.parseLong(delegateExecution.getVariable("vacancyId").toString());
 
             Vacancy vacancy = getVacancyById(id);
 

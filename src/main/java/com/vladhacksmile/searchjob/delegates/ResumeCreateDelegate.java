@@ -33,12 +33,13 @@ public class ResumeCreateDelegate implements JavaDelegate {
         try {
             User user = userService.authByToken(delegateExecution);
 
-            if (user.getRole() != UserRole.EMPLOYER) throw new OperationNotPermitedException("Вы не соискатель");
+            if (user.getRole() != UserRole.APPLICANT) throw new OperationNotPermitedException("Вы не соискатель");
 
             String specialization = (String) delegateExecution.getVariable("specialization");
             String description = (String) delegateExecution.getVariable("description");
             resumeService.addResume(user, new ResumeDTO(null, specialization, description));
             System.out.println(delegateExecution.getCurrentActivityName());
+            delegateExecution.setVariable("result", "Резюме успешно добавлено");
         } catch (Throwable throwable) {
             throw new BpmnError("error", throwable.getMessage());
         }

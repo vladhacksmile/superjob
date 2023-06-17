@@ -11,7 +11,7 @@
       "key": "specialization"
     },
     {
-      "label": "description",
+      "label": "Description",
       "type": "textfield",
       "layout": {
         "row": "Row_069c9iz",
@@ -19,6 +19,16 @@
       },
       "id": "Field_0y62rcu",
       "key": "description"
+    },
+    {
+      "label": "Token",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_0448l91",
+        "columns": null
+      },
+      "id": "Field_067c190",
+      "key": "accessToken"
     }
   ],
   "type": "default",

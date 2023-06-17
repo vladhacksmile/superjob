@@ -9,6 +9,16 @@
       },
       "id": "Field_0rmzwxg",
       "key": "vacancyId"
+    },
+    {
+      "label": "Token",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_14ekaa7",
+        "columns": null
+      },
+      "id": "Field_0rofse1",
+      "key": "accessToken"
     }
   ],
   "type": "default",
