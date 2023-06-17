@@ -1,0 +1,43 @@
+{
+  "components": [
+    {
+      "label": "Salary",
+      "type": "textarea",
+      "layout": {
+        "row": "Row_05r1d67",
+        "columns": null
+      },
+      "id": "Field_1nsh9i3",
+      "key": "salary"
+    },
+    {
+      "label": "Name",
+      "type": "textarea",
+      "layout": {
+        "row": "Row_130neyx",
+        "columns": null
+      },
+      "id": "Field_0h4v3kr",
+      "key": "name"
+    },
+    {
+      "label": "Information",
+      "type": "textarea",
+      "layout": {
+        "row": "Row_1gkx7ep",
+        "columns": null
+      },
+      "id": "Field_0xmttmr",
+      "key": "information"
+    }
+  ],
+  "type": "default",
+  "id": "Form_0lmrz5x",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.12.0"
+  },
+  "executionPlatform": "Camunda Platform",
+  "executionPlatformVersion": "7.19.0",
+  "schemaVersion": 9
+}

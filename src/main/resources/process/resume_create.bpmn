@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_17kilgd" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.12.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.19.0">
+  <bpmn:collaboration id="Collaboration_14f3wx8">
+    <bpmn:participant id="Participant_1pt1leb" name="Создание резюме" processRef="Process_1pzf8uj" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_1pzf8uj" isExecutable="true">
+    <bpmn:laneSet id="LaneSet_0f60cgc">
+      <bpmn:lane id="Lane_0yx1dss">
+        <bpmn:flowNodeRef>Event_0pxf4la</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_1r1vo4z</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_04qpe20</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Event_0sox6bs</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="Event_0pxf4la">
+      <bpmn:outgoing>Flow_1ecflj2</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:userTask id="Activity_1r1vo4z" name="Заполните форму резюме" camunda:formKey="camunda-forms:/forms/resume_create.form">
+      <bpmn:incoming>Flow_1ecflj2</bpmn:incoming>
+      <bpmn:outgoing>Flow_0n50kv6</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:serviceTask id="Activity_04qpe20" name="Создание резюме" camunda:delegateExpression="#{resumeCreate}">
+      <bpmn:incoming>Flow_0n50kv6</bpmn:incoming>
+      <bpmn:outgoing>Flow_15pf5em</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="Event_0sox6bs" name="Опубликованное резюме">
+      <bpmn:incoming>Flow_15pf5em</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1ecflj2" sourceRef="Event_0pxf4la" targetRef="Activity_1r1vo4z" />
+    <bpmn:sequenceFlow id="Flow_0n50kv6" sourceRef="Activity_1r1vo4z" targetRef="Activity_04qpe20" />
+    <bpmn:sequenceFlow id="Flow_15pf5em" sourceRef="Activity_04qpe20" targetRef="Event_0sox6bs" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_14f3wx8">
+      <bpmndi:BPMNShape id="Participant_1pt1leb_di" bpmnElement="Participant_1pt1leb" isHorizontal="true">
+        <dc:Bounds x="140" y="80" width="710" height="340" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_0yx1dss_di" bpmnElement="Lane_0yx1dss" isHorizontal="true">
+        <dc:Bounds x="170" y="80" width="680" height="340" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0pxf4la_di" bpmnElement="Event_0pxf4la">
+        <dc:Bounds x="222" y="222" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1r1vo4z_di" bpmnElement="Activity_1r1vo4z">
+        <dc:Bounds x="350" y="200" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_04qpe20_di" bpmnElement="Activity_04qpe20">
+        <dc:Bounds x="550" y="200" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0sox6bs_di" bpmnElement="Event_0sox6bs">
+        <dc:Bounds x="752" y="222" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="729" y="265" width="86" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1ecflj2_di" bpmnElement="Flow_1ecflj2">
+        <di:waypoint x="258" y="240" />
+        <di:waypoint x="350" y="240" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0n50kv6_di" bpmnElement="Flow_0n50kv6">
+        <di:waypoint x="450" y="240" />
+        <di:waypoint x="550" y="240" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_15pf5em_di" bpmnElement="Flow_15pf5em">
+        <di:waypoint x="650" y="240" />
+        <di:waypoint x="752" y="240" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

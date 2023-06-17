@@ -1,0 +1,33 @@
+{
+  "components": [
+    {
+      "label": "Specialization",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_0sm8yd9",
+        "columns": null
+      },
+      "id": "Field_1hf16zl",
+      "key": "specialization"
+    },
+    {
+      "label": "description",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_069c9iz",
+        "columns": null
+      },
+      "id": "Field_0y62rcu",
+      "key": "description"
+    }
+  ],
+  "type": "default",
+  "id": "Form_1vp40mx",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.12.0"
+  },
+  "executionPlatform": "Camunda Platform",
+  "executionPlatformVersion": "7.19.0",
+  "schemaVersion": 9
+}

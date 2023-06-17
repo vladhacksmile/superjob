@@ -54,12 +54,12 @@
         <dc:Bounds x="129" y="80" width="851" height="540" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Lane_0a2e67f_di" bpmnElement="Lane_0a2e67f" isHorizontal="true">
-        <dc:Bounds x="159" y="330" width="821" height="290" />
-        <bpmndi:BPMNLabel />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Lane_0elpkrb_di" bpmnElement="Lane_0elpkrb" isHorizontal="true">
         <dc:Bounds x="159" y="80" width="821" height="250" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_0a2e67f_di" bpmnElement="Lane_0a2e67f" isHorizontal="true">
+        <dc:Bounds x="159" y="330" width="821" height="290" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_04jkd54_di" bpmnElement="Event_04jkd54">
