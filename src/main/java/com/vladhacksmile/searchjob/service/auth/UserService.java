@@ -11,8 +11,11 @@ import com.vladhacksmile.searchjob.entities.User;
 import com.vladhacksmile.searchjob.repository.RefreshTokenRepository;
 import com.vladhacksmile.searchjob.repository.RoleRepository;
 import com.vladhacksmile.searchjob.repository.UserRepository;
+import com.vladhacksmile.searchjob.security.exception.TokenIncorrectException;
 import com.vladhacksmile.searchjob.security.exception.TokenRefreshException;
+import com.vladhacksmile.searchjob.security.exception.UserNotAuthException;
 import com.vladhacksmile.searchjob.security.jwt.JwtUtils;
+import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -46,6 +49,8 @@ public class UserService {
 
     @Autowired
     private RefreshTokenRepository refreshTokenRepository;
+    @Autowired
+    private UserDetailsImplService userDetailsImplService;
 
     @Value("${app.jwtRefreshExpirationMs}")
     private Long refreshTokenDurationMs;
@@ -78,9 +83,7 @@ public class UserService {
                     userDetails.getId(),
                     userDetails.getMail(), refreshToken.getToken());
         } else {
-            return new JwtResponse("ERROR",
-                    1L,
-                    "ERROR", "INCORRECT");
+            throw new UserNotAuthException("Пользователь не найден!");
         }
     }
 
@@ -122,5 +125,32 @@ public class UserService {
         }
 
         return token;
+    }
+
+    public void auth(DelegateExecution delegateExecution) {
+        String username = (String) delegateExecution.getVariable("username");
+        String password = (String) delegateExecution.getVariable("password");
+        JwtResponse jwtResponse = login(new AuthRequest(username, password));
+
+        String accessToken = jwtResponse.getToken();
+
+        delegateExecution.setVariable("accessToken", accessToken);
+    }
+
+    public User authByToken(DelegateExecution delegateExecution) throws Exception {
+        String jwt = (String) delegateExecution.getVariable("accessToken");
+        User userDetails;
+        if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
+            String username = jwtUtils.getUserNameFromJwtToken(jwt);
+
+            userDetails = userDetailsImplService.loadUserByUsername(username);
+            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+
+            SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+        } else {
+            throw new TokenIncorrectException("Token incorrect");
+        }
+
+        return userDetails;
     }
 }
