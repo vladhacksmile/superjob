@@ -1,5 +1,7 @@
-package com.vladhacksmile.searchjob.service;
+package com.vladhacksmile.searchjob.config;
 
+import com.vladhacksmile.searchjob.service.AsyncScheduling;
+import com.vladhacksmile.searchjob.service.AutoWiringSpringBeanJobFactory;
 import org.quartz.JobDetail;
 import org.quartz.SimpleTrigger;
 import org.quartz.Trigger;
