@@ -1,5 +1,6 @@
 package com.vladhacksmile.searchjob.dto.auth;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,6 +10,7 @@ import javax.validation.constraints.Size;
 
 @Setter
 @Getter
+@AllArgsConstructor
 public class AuthRequest {
     @NotEmpty(message = "Mail should not be empty!")
     @Size(min = 5, message = "Mail should be contains min 5 symbols!")
