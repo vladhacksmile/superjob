@@ -51,8 +51,8 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
     private UserRole role;
-    @Column(nullable = false, unique = true)
-    private String camundaId;
+//    @Column(nullable = false, unique = true)
+//    private String camundaId;
 
     public User(String name, String surname, String patronymic, int age, String number, String mail, String password, UserRole role) {
         this.name = name;

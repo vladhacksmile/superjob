@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_17kilgd" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.12.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.19.0">
   <bpmn:collaboration id="Collaboration_14f3wx8">
-    <bpmn:participant id="Participant_1pt1leb" name="Создание резюме" processRef="Process_1pzf8uj" />
+    <bpmn:participant id="Participant_1pt1leb" name="Создание резюме" processRef="create_resume" />
   </bpmn:collaboration>
-  <bpmn:process id="Process_1pzf8uj" isExecutable="true">
+  <bpmn:process id="create_resume" isExecutable="true">
     <bpmn:laneSet id="LaneSet_0f60cgc">
       <bpmn:lane id="Lane_0yx1dss">
         <bpmn:flowNodeRef>Event_0pxf4la</bpmn:flowNodeRef>

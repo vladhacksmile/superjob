@@ -58,7 +58,7 @@ public class UserService {
     public MessageResponse register(RegisterRequest registerRequest) {
 
         if(userRepository.existsByMail(registerRequest.getMail())) {
-            return new MessageResponse("Auth Error, User already exist");
+           throw new TokenIncorrectException("Auth Error, User already exist");
         } else {
             User user = new User(registerRequest.getName(), registerRequest.getSurname(), registerRequest.getPatronymic(),
                     registerRequest.getAge(), registerRequest.getNumber(), registerRequest.getMail(),

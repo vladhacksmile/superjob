@@ -61,6 +61,7 @@ public class WebSecurityConfig {
 //                .antMatchers("/api/resumes/**").hasAuthority(UserRole.EMPLOYER.getName())
 //                .antMatchers("/api/vacancies/**").hasAuthority(UserRole.APPLICANT.getName())
 //                .anyRequest().authenticated()
+//                        .antMatchers("/camunda/**").hasAuthority()
                         .anyRequest().permitAll()
                 ));
 

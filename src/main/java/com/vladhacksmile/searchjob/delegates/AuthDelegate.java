@@ -25,7 +25,7 @@ public class AuthDelegate implements JavaDelegate {
         try {
             userService.auth(delegateExecution);
             User user = userService.authByToken(delegateExecution);
-            resumeService.addResume(user, new ResumeDTO(1L, "Тест", "Описание"));
+            resumeService.addResume(user, new ResumeDTO(user.getId(), user.getMail(), "Описание"));
             System.out.println(delegateExecution.getCurrentActivityName());
         } catch (Throwable throwable) {
             throw new BpmnError("auth_error", throwable.getMessage());
