@@ -1,0 +1,43 @@
+{
+  "components": [
+    {
+      "label": "Resume Id",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_0e5dia8",
+        "columns": null
+      },
+      "id": "Field_114bceo",
+      "key": "resumeId"
+    },
+    {
+      "label": "Specialization",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_1e4aqvl",
+        "columns": null
+      },
+      "id": "Field_07l726h",
+      "key": "specialization"
+    },
+    {
+      "label": "Description",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_0tmqxv3",
+        "columns": null
+      },
+      "id": "Field_1kk8mw1",
+      "key": "description"
+    }
+  ],
+  "type": "default",
+  "id": "Form_1sufmb3",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.12.0"
+  },
+  "executionPlatform": "Camunda Platform",
+  "executionPlatformVersion": "7.19.0",
+  "schemaVersion": 9
+}

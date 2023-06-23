@@ -40,20 +40,12 @@ public class VacancyService {
 
     public Vacancy getVacancyById(long id) {
         Optional<Vacancy> vacancyOptional = vacancyRepository.findById(id);
-        if(vacancyOptional.isPresent()) {
-            return vacancyOptional.get();
-        } else {
-            return null;
-        }
+        return vacancyOptional.orElse(null);
     }
 
     public Resume getResumeById(long id) {
         Optional<Resume> resumeOptional = resumeRepository.findById(id);
-        if(resumeOptional.isPresent()) {
-            return resumeOptional.get();
-        } else {
-            return null;
-        }
+        return resumeOptional.orElse(null);
     }
 
     public Vacancy addVacancy(User user, VacancyDTO vacancyDTO) {

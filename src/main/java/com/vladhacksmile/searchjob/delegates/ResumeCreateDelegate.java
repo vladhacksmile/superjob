@@ -1,14 +1,12 @@
 package com.vladhacksmile.searchjob.delegates;
 
 import com.vladhacksmile.searchjob.dto.resume.ResumeDTO;
-import com.vladhacksmile.searchjob.dto.vacancy.VacancyDTO;
 import com.vladhacksmile.searchjob.entities.User;
 import com.vladhacksmile.searchjob.repository.UserRepository;
 import com.vladhacksmile.searchjob.service.ResumeService;
-import com.vladhacksmile.searchjob.service.VacancyService;
+import lombok.RequiredArgsConstructor;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.inject.Named;
@@ -16,13 +14,12 @@ import java.util.Optional;
 
 @Component
 @Named("resumeCreate")
+@RequiredArgsConstructor
 public class ResumeCreateDelegate implements JavaDelegate {
 
-    @Autowired
-    ResumeService resumeService;
+    final private ResumeService resumeService;
 
-    @Autowired
-    UserRepository userRepository;
+    final private UserRepository userRepository;
 
     @Override
     public void execute(DelegateExecution delegateExecution) {
@@ -32,7 +29,7 @@ public class ResumeCreateDelegate implements JavaDelegate {
         String specialization = (String) delegateExecution.getVariable("specialization");
         String description = (String) delegateExecution.getVariable("description");
 
-        user.ifPresent(value -> resumeService.addResume(value, new ResumeDTO(1l, specialization, description)));
+        user.ifPresent(value -> resumeService.addResume(value, new ResumeDTO(1L, specialization, description)));
         System.out.println(delegateExecution.getCurrentActivityName());
     }
 }

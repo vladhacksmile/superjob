@@ -1,0 +1,23 @@
+{
+  "components": [
+    {
+      "label": "Resume Id",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_12i2jpj",
+        "columns": null
+      },
+      "id": "Field_1mfu7ex",
+      "key": "resumeId"
+    }
+  ],
+  "type": "default",
+  "id": "Form_0tedf7p",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.12.0"
+  },
+  "executionPlatform": "Camunda Platform",
+  "executionPlatformVersion": "7.19.0",
+  "schemaVersion": 9
+}

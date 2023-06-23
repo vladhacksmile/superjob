@@ -1,0 +1,53 @@
+{
+  "components": [
+    {
+      "label": "Vacancy Id",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_0njnoij",
+        "columns": null
+      },
+      "id": "Field_0tw9599",
+      "key": "vacancyId"
+    },
+    {
+      "label": "Name",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_0ta3o2f",
+        "columns": null
+      },
+      "id": "Field_0s7a5ub",
+      "key": "name"
+    },
+    {
+      "label": "Salary",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_0wtvjo0",
+        "columns": null
+      },
+      "id": "Field_1n8wj93",
+      "key": "salary"
+    },
+    {
+      "label": "Information",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_0wtvjo0",
+        "columns": null
+      },
+      "id": "Field_1a2n117",
+      "key": "information"
+    }
+  ],
+  "type": "default",
+  "id": "Form_10anexw",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.12.0"
+  },
+  "executionPlatform": "Camunda Platform",
+  "executionPlatformVersion": "7.19.0",
+  "schemaVersion": 9
+}

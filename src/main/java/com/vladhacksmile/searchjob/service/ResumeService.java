@@ -27,11 +27,7 @@ public class ResumeService {
 
     public Resume getResumeById(long id) {
         Optional<Resume> resumeOptional = resumeRepository.findById(id);
-        if(resumeOptional.isPresent()) {
-            return resumeOptional.get();
-        }  else {
-            return null;
-        }
+        return resumeOptional.orElse(null);
     }
 
     public Resume addResume(User user, ResumeDTO resumeDTO) {
