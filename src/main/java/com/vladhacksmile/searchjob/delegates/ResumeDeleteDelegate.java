@@ -1,13 +1,20 @@
 package com.vladhacksmile.searchjob.delegates;
 
 import com.vladhacksmile.searchjob.entities.Resume;
+import com.vladhacksmile.searchjob.entities.User;
+import com.vladhacksmile.searchjob.enums.UserRole;
 import com.vladhacksmile.searchjob.repository.ResumeRepository;
+import com.vladhacksmile.searchjob.security.exception.OperationNotPermitedException;
+import com.vladhacksmile.searchjob.service.auth.UserService;
 import lombok.RequiredArgsConstructor;
+import org.camunda.bpm.engine.delegate.BpmnError;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.inject.Named;
+import java.util.Objects;
 import java.util.Optional;
 
 @Component
@@ -15,19 +22,35 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ResumeDeleteDelegate implements JavaDelegate {
 
-    final private ResumeRepository resumeRepository;
+    @Autowired
+    ResumeRepository resumeRepository;
+
+    @Autowired
+    UserService userService;
 
     @Override
     public void execute(DelegateExecution delegateExecution) {
-        Long id = (Long) delegateExecution.getVariable("resumeId");
+        try {
+            User user = userService.authByToken(delegateExecution);
 
-        Resume resume = getResumeById(id);
+            if (user.getRole() != UserRole.EMPLOYER) throw new OperationNotPermitedException("Вы не соискатель");
 
-        if(resume != null) {
-            resumeRepository.deleteById(id);
-            delegateExecution.setVariable("result", "Успешно удалено");
-        } else {
-            delegateExecution.setVariable("result", "'Элемента не существует");
+            Long id = (Long) delegateExecution.getVariable("resumeId");
+
+            Resume resume = getResumeById(id);
+
+            if (resume != null) {
+                if (Objects.equals(user.getId(), resume.getUser().getId())) {
+                    resumeRepository.deleteById(id);
+                    delegateExecution.setVariable("result", "Успешно удалено");
+                } else {
+                    delegateExecution.setVariable("result", "Нет прав");
+                }
+            } else {
+                delegateExecution.setVariable("result", "'Элемента не существует");
+            }
+        } catch (Throwable throwable) {
+            throw new BpmnError("error", throwable.getMessage());
         }
     }
 

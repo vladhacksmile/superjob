@@ -2,7 +2,9 @@ package com.vladhacksmile.searchjob.delegates;
 
 import com.vladhacksmile.searchjob.dto.resume.ResumeDTO;
 import com.vladhacksmile.searchjob.entities.User;
+import com.vladhacksmile.searchjob.enums.UserRole;
 import com.vladhacksmile.searchjob.repository.UserRepository;
+import com.vladhacksmile.searchjob.security.exception.OperationNotPermitedException;
 import com.vladhacksmile.searchjob.service.ResumeService;
 import com.vladhacksmile.searchjob.service.auth.UserService;
 import org.camunda.bpm.engine.delegate.BpmnError;
@@ -30,14 +32,15 @@ public class ResumeCreateDelegate implements JavaDelegate {
     public void execute(DelegateExecution delegateExecution) {
         try {
             User user = userService.authByToken(delegateExecution);
-            System.out.println(user.getMail());
+
+            if (user.getRole() != UserRole.EMPLOYER) throw new OperationNotPermitedException("Вы не соискатель");
+
             String specialization = (String) delegateExecution.getVariable("specialization");
             String description = (String) delegateExecution.getVariable("description");
-            System.out.println(specialization);
             resumeService.addResume(user, new ResumeDTO(null, specialization, description));
             System.out.println(delegateExecution.getCurrentActivityName());
-        } catch (Exception e) {
-            throw new BpmnError("resume_error", e.getMessage());
+        } catch (Throwable throwable) {
+            throw new BpmnError("error", throwable.getMessage());
         }
     }
 }

@@ -1,15 +1,20 @@
 package com.vladhacksmile.searchjob.delegates;
 
 import com.vladhacksmile.searchjob.entities.Resume;
+import com.vladhacksmile.searchjob.entities.User;
+import com.vladhacksmile.searchjob.enums.UserRole;
 import com.vladhacksmile.searchjob.repository.ResumeRepository;
+import com.vladhacksmile.searchjob.security.exception.OperationNotPermitedException;
+import com.vladhacksmile.searchjob.service.auth.UserService;
 import lombok.RequiredArgsConstructor;
-import org.apache.ibatis.jdbc.Null;
+import org.camunda.bpm.engine.delegate.BpmnError;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.inject.Named;
+import java.util.Objects;
 import java.util.Optional;
 
 @Component
@@ -17,21 +22,36 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ResumeUpdateDelegate implements JavaDelegate {
 
-    final private ResumeRepository resumeRepository;
+    @Autowired
+    ResumeRepository resumeRepository;
 
+    @Autowired
+    UserService userService;
     @Override
     public void execute(DelegateExecution delegateExecution) throws Exception {
-        Long resumeId = (Long) delegateExecution.getVariable("resumeId");
-        String specialization = (String) delegateExecution.getVariable("specialization");
-        String description = (String) delegateExecution.getVariable("description");
-        Resume resume = getResumeById(resumeId);
-        if (resume != null) {
-            resume.setSpecialization(specialization);
-            resume.setDescription(description);
-            resumeRepository.save(resume);
-            delegateExecution.setVariable("result", "Успешно обновлено");
-        } else {
-            delegateExecution.setVariable("result", "Резюме не существует");
+        try {
+            User user = userService.authByToken(delegateExecution);
+
+            if (user.getRole() != UserRole.EMPLOYER) throw new OperationNotPermitedException("Вы не соискатель");
+
+            Long resumeId = (Long) delegateExecution.getVariable("resumeId");
+            String specialization = (String) delegateExecution.getVariable("specialization");
+            String description = (String) delegateExecution.getVariable("description");
+            Resume resume = getResumeById(resumeId);
+            if (resume != null) {
+                if (Objects.equals(user.getId(), resume.getUser().getId())) {
+                    resume.setSpecialization(specialization);
+                    resume.setDescription(description);
+                    resumeRepository.save(resume);
+                    delegateExecution.setVariable("result", "Успешно обновлено");
+                } else {
+                    delegateExecution.setVariable("result", "Нет прав");
+                }
+            } else {
+                delegateExecution.setVariable("result", "Резюме не существует");
+            }
+        } catch (Throwable throwable) {
+            throw new BpmnError("error", throwable.getMessage());
         }
     }
 

@@ -31,9 +31,7 @@ public class RegisterDelegate implements JavaDelegate {
             delegateExecution.setVariable("result", messageResponse.getMessage());
             System.out.println(delegateExecution.getCurrentActivityName());
         } catch (Throwable throwable) {
-            delegateExecution.setVariable("register_error", throwable.getMessage());
-            throwable.printStackTrace();
-            throw new BpmnError("register_error", throwable.getMessage());
+            throw new BpmnError("error", throwable.getMessage());
         }
     }
 }
