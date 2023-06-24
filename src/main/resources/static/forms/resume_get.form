@@ -1,14 +1,18 @@
 {
   "components": [
     {
-      "label": "Resume Id",
-      "type": "textfield",
+      "label": "Resume id",
+      "type": "number",
       "layout": {
-        "row": "Row_12i2jpj",
+        "row": "Row_0jrsidb",
         "columns": null
       },
-      "id": "Field_1mfu7ex",
-      "key": "resumeId"
+      "id": "Field_1m7bht8",
+      "key": "resumeId",
+      "validate": {
+        "required": true,
+        "min": 1
+      }
     },
     {
       "label": "Token",
@@ -18,7 +22,10 @@
         "columns": null
       },
       "id": "Field_1jx9x9b",
-      "key": "accessToken"
+      "key": "accessToken",
+      "validate": {
+        "required": true
+      }
     }
   ],
   "type": "default",

@@ -8,7 +8,11 @@
         "columns": null
       },
       "id": "Field_04xqzj4",
-      "key": "username"
+      "key": "username",
+      "validate": {
+        "required": true,
+        "minLength": 5
+      }
     },
     {
       "label": "Password",
@@ -18,16 +22,20 @@
         "columns": null
       },
       "id": "Field_0tgfqgh",
-      "key": "password"
+      "key": "password",
+      "validate": {
+        "minLength": 6,
+        "required": true
+      }
     }
   ],
   "type": "default",
   "id": "hello-form",
   "exporter": {
     "name": "Camunda Modeler",
-    "version": "5.10.0"
+    "version": "5.12.0"
   },
   "executionPlatform": "Camunda Platform",
   "executionPlatformVersion": "7.19.0",
-  "schemaVersion": 8
+  "schemaVersion": 9
 }

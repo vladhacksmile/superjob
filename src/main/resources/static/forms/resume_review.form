@@ -4,10 +4,10 @@
       "label": "Resume Id",
       "type": "number",
       "layout": {
-        "row": "Row_01z2zr5",
+        "row": "Row_1vslqhx",
         "columns": null
       },
-      "id": "Field_1vtxw4j",
+      "id": "Field_1vinnsa",
       "key": "resumeId",
       "validate": {
         "required": true,
@@ -18,10 +18,10 @@
       "label": "Token",
       "type": "textfield",
       "layout": {
-        "row": "Row_1k0o67r",
+        "row": "Row_1jz11lm",
         "columns": null
       },
-      "id": "Field_19b7jhq",
+      "id": "Field_1jx9x9b",
       "key": "accessToken",
       "validate": {
         "required": true
@@ -29,7 +29,7 @@
     }
   ],
   "type": "default",
-  "id": "Form_001lp0c",
+  "id": "Form_0tedf7p",
   "exporter": {
     "name": "Camunda Modeler",
     "version": "5.12.0"

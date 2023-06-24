@@ -1,4 +1,4 @@
-package com.vladhacksmile.searchjob.delegates;
+package com.vladhacksmile.searchjob.delegates.auth;
 
 import com.vladhacksmile.searchjob.dto.MessageResponse;
 import com.vladhacksmile.searchjob.dto.auth.RegisterRequest;

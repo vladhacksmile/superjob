@@ -1,14 +1,28 @@
 {
   "components": [
     {
-      "label": "Resume Id",
+      "label": "Резюме ID",
       "type": "number",
       "layout": {
-        "row": "Row_01z2zr5",
+        "row": "Row_0dyfj4d",
         "columns": null
       },
-      "id": "Field_1vtxw4j",
+      "id": "Field_12cxj6a",
       "key": "resumeId",
+      "validate": {
+        "required": true,
+        "min": 1
+      }
+    },
+    {
+      "label": "Вакансия ID",
+      "type": "number",
+      "layout": {
+        "row": "Row_12xs4js",
+        "columns": null
+      },
+      "id": "Field_1lus94f",
+      "key": "vacancyId",
       "validate": {
         "required": true,
         "min": 1
@@ -18,10 +32,10 @@
       "label": "Token",
       "type": "textfield",
       "layout": {
-        "row": "Row_1k0o67r",
+        "row": "Row_0eybjjz",
         "columns": null
       },
-      "id": "Field_19b7jhq",
+      "id": "Field_0ex2vtz",
       "key": "accessToken",
       "validate": {
         "required": true
@@ -29,7 +43,7 @@
     }
   ],
   "type": "default",
-  "id": "Form_001lp0c",
+  "id": "register-form",
   "exporter": {
     "name": "Camunda Modeler",
     "version": "5.12.0"

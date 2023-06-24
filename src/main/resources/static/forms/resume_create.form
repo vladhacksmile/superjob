@@ -8,7 +8,10 @@
         "columns": null
       },
       "id": "Field_1hf16zl",
-      "key": "specialization"
+      "key": "specialization",
+      "validate": {
+        "required": true
+      }
     },
     {
       "label": "Description",
@@ -18,7 +21,10 @@
         "columns": null
       },
       "id": "Field_0y62rcu",
-      "key": "description"
+      "key": "description",
+      "validate": {
+        "required": true
+      }
     },
     {
       "label": "Token",
@@ -28,7 +34,10 @@
         "columns": null
       },
       "id": "Field_067c190",
-      "key": "accessToken"
+      "key": "accessToken",
+      "validate": {
+        "required": true
+      }
     }
   ],
   "type": "default",

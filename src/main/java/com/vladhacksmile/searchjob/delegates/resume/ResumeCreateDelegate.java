@@ -1,4 +1,4 @@
-package com.vladhacksmile.searchjob.delegates;
+package com.vladhacksmile.searchjob.delegates.resume;
 
 import com.vladhacksmile.searchjob.dto.resume.ResumeDTO;
 import com.vladhacksmile.searchjob.entities.User;

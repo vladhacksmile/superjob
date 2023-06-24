@@ -1,8 +1,10 @@
-package com.vladhacksmile.searchjob.delegates;
+package com.vladhacksmile.searchjob.delegates.resume;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vladhacksmile.searchjob.entities.Resume;
 import com.vladhacksmile.searchjob.entities.User;
 import com.vladhacksmile.searchjob.enums.UserRole;
+import com.vladhacksmile.searchjob.repository.ResponseRepository;
 import com.vladhacksmile.searchjob.repository.ResumeRepository;
 import com.vladhacksmile.searchjob.security.exception.OperationNotPermitedException;
 import com.vladhacksmile.searchjob.service.auth.UserService;
@@ -18,18 +20,18 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Component
-@Named("resumeDelete")
+@Named("resumeReview")
 @RequiredArgsConstructor
-public class ResumeDeleteDelegate implements JavaDelegate {
+public class ResumeReviewDelegate implements JavaDelegate {
 
+    @Autowired
+    ResponseRepository responseRepository;
     @Autowired
     ResumeRepository resumeRepository;
-
     @Autowired
     UserService userService;
-
     @Override
-    public void execute(DelegateExecution delegateExecution) {
+    public void execute(DelegateExecution delegateExecution) throws Exception {
         try {
             User user = userService.authByToken(delegateExecution);
 
@@ -38,16 +40,15 @@ public class ResumeDeleteDelegate implements JavaDelegate {
             long id = Long.parseLong(delegateExecution.getVariable("resumeId").toString());
 
             Resume resume = getResumeById(id);
-
             if (resume != null) {
                 if (Objects.equals(user.getId(), resume.getUser().getId())) {
-                    resumeRepository.deleteById(id);
-                    delegateExecution.setVariable("result", "Успешно удалено");
+                    ObjectMapper objectMapper = new ObjectMapper();
+                    delegateExecution.setVariable("result", objectMapper.writeValueAsString(responseRepository.findAllByResume(resume)));
                 } else {
                     delegateExecution.setVariable("result", "Нет прав");
                 }
             } else {
-                delegateExecution.setVariable("result", "Элемента не существует");
+                delegateExecution.setVariable("result", "Резюме не существует");
             }
         } catch (Throwable throwable) {
             throw new BpmnError("error", throwable.getMessage());

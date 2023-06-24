@@ -1,27 +1,23 @@
 {
   "components": [
     {
-      "label": "Resume Id",
-      "type": "number",
+      "label": "Vacancy Id",
+      "type": "textfield",
       "layout": {
-        "row": "Row_01z2zr5",
+        "row": "Row_12i2jpj",
         "columns": null
       },
-      "id": "Field_1vtxw4j",
-      "key": "resumeId",
-      "validate": {
-        "required": true,
-        "min": 1
-      }
+      "id": "Field_1mfu7ex",
+      "key": "vacancyId"
     },
     {
       "label": "Token",
       "type": "textfield",
       "layout": {
-        "row": "Row_1k0o67r",
+        "row": "Row_1jz11lm",
         "columns": null
       },
-      "id": "Field_19b7jhq",
+      "id": "Field_1jx9x9b",
       "key": "accessToken",
       "validate": {
         "required": true
@@ -29,7 +25,7 @@
     }
   ],
   "type": "default",
-  "id": "Form_001lp0c",
+  "id": "Form_0tedf7p",
   "exporter": {
     "name": "Camunda Modeler",
     "version": "5.12.0"

@@ -1,4 +1,4 @@
-package com.vladhacksmile.searchjob.delegates;
+package com.vladhacksmile.searchjob.delegates.vacancy;
 
 import com.vladhacksmile.searchjob.dto.vacancy.VacancyDTO;
 import com.vladhacksmile.searchjob.entities.User;

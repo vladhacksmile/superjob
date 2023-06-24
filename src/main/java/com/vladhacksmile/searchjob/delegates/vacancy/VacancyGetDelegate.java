@@ -1,9 +1,9 @@
-package com.vladhacksmile.searchjob.delegates;
+package com.vladhacksmile.searchjob.delegates.vacancy;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.vladhacksmile.searchjob.entities.Resume;
 import com.vladhacksmile.searchjob.entities.User;
-import com.vladhacksmile.searchjob.repository.ResumeRepository;
+import com.vladhacksmile.searchjob.entities.Vacancy;
+import com.vladhacksmile.searchjob.repository.VacancyRepository;
 import com.vladhacksmile.searchjob.service.auth.UserService;
 import lombok.RequiredArgsConstructor;
 import org.camunda.bpm.engine.delegate.BpmnError;
@@ -16,11 +16,13 @@ import javax.inject.Named;
 import java.util.Optional;
 
 @Component
-@Named("resumeGet")
+@Named("vacancyGet")
 @RequiredArgsConstructor
-public class ResumeGetDelegate implements JavaDelegate {
+public class VacancyGetDelegate implements JavaDelegate {
+
     @Autowired
-    ResumeRepository resumeRepository;
+    VacancyRepository vacancyRepository;
+
     @Autowired
     UserService userService;
 
@@ -28,11 +30,11 @@ public class ResumeGetDelegate implements JavaDelegate {
     public void execute(DelegateExecution delegateExecution) throws Exception {
         try {
             User user = userService.authByToken(delegateExecution);
-            long id =  Long.parseLong(delegateExecution.getVariable("resumeId").toString());
-            Optional<Resume> resumeOptional = resumeRepository.findById(id);
+            long id = Long.parseLong(delegateExecution.getVariable("vacancyId").toString());
+            Optional<Vacancy> vacancy = vacancyRepository.findById(id);
             ObjectMapper objectMapper = new ObjectMapper();
-            if (resumeOptional.isPresent()) {
-                delegateExecution.setVariable("result", objectMapper.writeValueAsString(resumeOptional.get()));
+            if (vacancy.isPresent()) {
+                delegateExecution.setVariable("result", objectMapper.writeValueAsString(vacancy.get()));
             }
         } catch (Throwable throwable) {
             throw new BpmnError("error", throwable.getMessage());

@@ -67,14 +67,15 @@
     },
     {
       "label": "Возвраст",
-      "type": "textfield",
+      "type": "number",
       "layout": {
-        "row": "Row_0hw3q6r",
+        "row": "Row_0i3eenw",
         "columns": null
       },
-      "id": "Field_0d3ru8l",
+      "id": "Field_031p3ad",
       "key": "age",
       "validate": {
+        "min": 18,
         "required": true
       }
     },
@@ -88,7 +89,8 @@
       "id": "Field_0433eik",
       "key": "number",
       "validate": {
-        "required": true
+        "required": true,
+        "minLength": 11
       }
     },
     {
@@ -101,7 +103,8 @@
       "id": "Field_04xqzj4",
       "key": "username",
       "validate": {
-        "required": true
+        "required": true,
+        "minLength": 6
       }
     },
     {
@@ -114,7 +117,8 @@
       "id": "Field_0tgfqgh",
       "key": "password",
       "validate": {
-        "required": true
+        "required": true,
+        "minLength": 6
       }
     }
   ],

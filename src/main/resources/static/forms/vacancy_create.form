@@ -2,13 +2,17 @@
   "components": [
     {
       "label": "Salary",
-      "type": "textarea",
+      "type": "number",
       "layout": {
-        "row": "Row_05r1d67",
+        "row": "Row_1lm1tbp",
         "columns": null
       },
-      "id": "Field_1nsh9i3",
-      "key": "salary"
+      "id": "Field_0fohea8",
+      "key": "salary",
+      "validate": {
+        "required": true,
+        "min": 0
+      }
     },
     {
       "label": "Name",
@@ -18,7 +22,10 @@
         "columns": null
       },
       "id": "Field_0h4v3kr",
-      "key": "name"
+      "key": "name",
+      "validate": {
+        "required": true
+      }
     },
     {
       "label": "Information",
@@ -28,7 +35,10 @@
         "columns": null
       },
       "id": "Field_0xmttmr",
-      "key": "information"
+      "key": "information",
+      "validate": {
+        "required": true
+      }
     },
     {
       "label": "Token",
@@ -38,7 +48,10 @@
         "columns": null
       },
       "id": "Field_17u4jmf",
-      "key": "accessToken"
+      "key": "accessToken",
+      "validate": {
+        "required": true
+      }
     }
   ],
   "type": "default",

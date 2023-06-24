@@ -2,13 +2,17 @@
   "components": [
     {
       "label": "Resume Id",
-      "type": "textfield",
+      "type": "number",
       "layout": {
-        "row": "Row_0e5dia8",
+        "row": "Row_0er9hqd",
         "columns": null
       },
-      "id": "Field_114bceo",
-      "key": "resumeId"
+      "id": "Field_1b9ntx5",
+      "key": "resumeId",
+      "validate": {
+        "required": true,
+        "min": 1
+      }
     },
     {
       "label": "Specialization",
@@ -18,7 +22,10 @@
         "columns": null
       },
       "id": "Field_07l726h",
-      "key": "specialization"
+      "key": "specialization",
+      "validate": {
+        "required": true
+      }
     },
     {
       "label": "Description",
@@ -28,7 +35,10 @@
         "columns": null
       },
       "id": "Field_1kk8mw1",
-      "key": "description"
+      "key": "description",
+      "validate": {
+        "required": true
+      }
     },
     {
       "label": "Token",
@@ -38,7 +48,10 @@
         "columns": null
       },
       "id": "Field_0gv2ctr",
-      "key": "accessToken"
+      "key": "accessToken",
+      "validate": {
+        "required": true
+      }
     }
   ],
   "type": "default",

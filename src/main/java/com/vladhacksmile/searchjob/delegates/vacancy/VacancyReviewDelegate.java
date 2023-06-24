@@ -1,8 +1,10 @@
-package com.vladhacksmile.searchjob.delegates;
+package com.vladhacksmile.searchjob.delegates.vacancy;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vladhacksmile.searchjob.entities.User;
 import com.vladhacksmile.searchjob.entities.Vacancy;
 import com.vladhacksmile.searchjob.enums.UserRole;
+import com.vladhacksmile.searchjob.repository.ResponseRepository;
 import com.vladhacksmile.searchjob.repository.VacancyRepository;
 import com.vladhacksmile.searchjob.security.exception.OperationNotPermitedException;
 import com.vladhacksmile.searchjob.service.auth.UserService;
@@ -18,16 +20,16 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Component
-@Named("vacancyUpdate")
+@Named("vacancyReview")
 @RequiredArgsConstructor
-public class VacancyUpdateDelegate implements JavaDelegate {
+public class VacancyReviewDelegate implements JavaDelegate {
 
+    @Autowired
+    ResponseRepository responseRepository;
     @Autowired
     VacancyRepository vacancyRepository;
-
     @Autowired
     UserService userService;
-
     @Override
     public void execute(DelegateExecution delegateExecution) throws Exception {
         try {
@@ -36,30 +38,25 @@ public class VacancyUpdateDelegate implements JavaDelegate {
             if (user.getRole() != UserRole.EMPLOYER) throw new OperationNotPermitedException("Вы не работодатель");
 
             long id = Long.parseLong(delegateExecution.getVariable("vacancyId").toString());
-            String name = (String) delegateExecution.getVariable("name");
-            int salary = Integer.parseInt(delegateExecution.getVariable("salary").toString());
-            String information = (String) delegateExecution.getVariable("information");
+
             Vacancy vacancy = getVacancyById(id);
             if (vacancy != null) {
                 if (Objects.equals(user.getId(), vacancy.getUser().getId())) {
-                    vacancy.setName(name);
-                    vacancy.setSalary(salary);
-                    vacancy.setInformation(information);
-                    vacancyRepository.save(vacancy);
-                    delegateExecution.setVariable("result", "Успешно обновлено");
+                    ObjectMapper objectMapper = new ObjectMapper();
+                    delegateExecution.setVariable("result", objectMapper.writeValueAsString(responseRepository.findAllByVacancy(vacancy)));
                 } else {
                     delegateExecution.setVariable("result", "Нет прав");
                 }
             } else {
-                delegateExecution.setVariable("result", "Вакансия не существует");
+                delegateExecution.setVariable("result", "Резюме не существует");
             }
         } catch (Throwable throwable) {
-                throw new BpmnError("error", throwable.getMessage());
+            throw new BpmnError("error", throwable.getMessage());
         }
     }
 
     public Vacancy getVacancyById(long id) {
-        Optional<Vacancy> resumeOptional = vacancyRepository.findById(id);
-        return resumeOptional.orElse(null);
+        Optional<Vacancy> vacancyOptional = vacancyRepository.findById(id);
+        return vacancyOptional.orElse(null);
     }
 }

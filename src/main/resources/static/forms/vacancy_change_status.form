@@ -1,0 +1,86 @@
+{
+  "components": [
+    {
+      "values": [
+        {
+          "label": "Ревью",
+          "value": "REVIEW"
+        },
+        {
+          "label": "Отклонить",
+          "value": "REJECT"
+        },
+        {
+          "label": "Пригласить",
+          "value": "INVITATION"
+        }
+      ],
+      "label": "Статус",
+      "type": "select",
+      "layout": {
+        "row": "Row_07yovsj",
+        "columns": null
+      },
+      "id": "Field_1xedaxm",
+      "key": "resumeStatus",
+      "searchable": false,
+      "readonly": false,
+      "validate": {
+        "required": true
+      },
+      "properties": {
+        "EMPLOYER": "Работодатель"
+      }
+    },
+    {
+      "label": "Резюме ID",
+      "type": "number",
+      "layout": {
+        "row": "Row_0dyfj4d",
+        "columns": null
+      },
+      "id": "Field_12cxj6a",
+      "key": "resumeId",
+      "validate": {
+        "required": true,
+        "min": 1
+      }
+    },
+    {
+      "label": "Вакансия ID",
+      "type": "number",
+      "layout": {
+        "row": "Row_12xs4js",
+        "columns": null
+      },
+      "id": "Field_1lus94f",
+      "key": "vacancyId",
+      "validate": {
+        "required": true,
+        "min": 1
+      }
+    },
+    {
+      "label": "Token",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_0rfbtq0",
+        "columns": null
+      },
+      "id": "Field_0cfuqc2",
+      "key": "accessToken",
+      "validate": {
+        "required": true
+      }
+    }
+  ],
+  "type": "default",
+  "id": "register-form",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.12.0"
+  },
+  "executionPlatform": "Camunda Platform",
+  "executionPlatformVersion": "7.19.0",
+  "schemaVersion": 9
+}

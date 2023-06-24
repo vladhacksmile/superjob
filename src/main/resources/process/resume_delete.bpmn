@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1nanvov" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.12.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.19.0">
   <bpmn:collaboration id="Collaboration_1pslfxc">
-    <bpmn:participant id="Participant_1jgoyzy" processRef="resume_delete" />
+    <bpmn:participant id="Participant_1jgoyzy" name="Удаление резюме" processRef="resume_delete" />
   </bpmn:collaboration>
   <bpmn:process id="resume_delete" isExecutable="true">
     <bpmn:startEvent id="StartEvent_1">
@@ -31,6 +31,7 @@
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1pslfxc">
       <bpmndi:BPMNShape id="Participant_1jgoyzy_di" bpmnElement="Participant_1jgoyzy" isHorizontal="true">
         <dc:Bounds x="160" y="79" width="838" height="331" />
+        <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
         <dc:Bounds x="242" y="182" width="36" height="36" />

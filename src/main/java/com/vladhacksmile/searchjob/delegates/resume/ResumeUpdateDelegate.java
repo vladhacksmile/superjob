@@ -1,9 +1,8 @@
-package com.vladhacksmile.searchjob.delegates;
+package com.vladhacksmile.searchjob.delegates.resume;
 
 import com.vladhacksmile.searchjob.entities.Resume;
 import com.vladhacksmile.searchjob.entities.User;
 import com.vladhacksmile.searchjob.enums.UserRole;
-import com.vladhacksmile.searchjob.repository.ResponseRepository;
 import com.vladhacksmile.searchjob.repository.ResumeRepository;
 import com.vladhacksmile.searchjob.security.exception.OperationNotPermitedException;
 import com.vladhacksmile.searchjob.service.auth.UserService;
@@ -19,14 +18,13 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Component
-@Named("resumeReview")
+@Named("resumeUpdate")
 @RequiredArgsConstructor
-public class ResumeReviewDelegate implements JavaDelegate {
+public class ResumeUpdateDelegate implements JavaDelegate {
 
     @Autowired
-    ResponseRepository responseRepository;
-    @Autowired
     ResumeRepository resumeRepository;
+
     @Autowired
     UserService userService;
     @Override
@@ -36,12 +34,16 @@ public class ResumeReviewDelegate implements JavaDelegate {
 
             if (user.getRole() != UserRole.APPLICANT) throw new OperationNotPermitedException("Вы не соискатель");
 
-            Long id = (Long) delegateExecution.getVariable("resumeId");
-
-            Resume resume = getResumeById(id);
+            long resumeId = Long.parseLong(delegateExecution.getVariable("resumeId").toString());
+            String specialization = (String) delegateExecution.getVariable("specialization");
+            String description = (String) delegateExecution.getVariable("description");
+            Resume resume = getResumeById(resumeId);
             if (resume != null) {
                 if (Objects.equals(user.getId(), resume.getUser().getId())) {
-                    delegateExecution.setVariable("result", responseRepository.findAllByResume(resume));
+                    resume.setSpecialization(specialization);
+                    resume.setDescription(description);
+                    resumeRepository.save(resume);
+                    delegateExecution.setVariable("result", "Успешно обновлено");
                 } else {
                     delegateExecution.setVariable("result", "Нет прав");
                 }
