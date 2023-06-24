@@ -8,7 +8,6 @@ import org.quartz.JobExecutionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
-import java.util.ArrayList;
 
 
 @Service
@@ -22,11 +21,9 @@ public class AsyncScheduling implements Job {
 
     @Override
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
-
-        System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-        ArrayList<String> list = new ArrayList<>();
-        list.add("zinchen_ko@mail.ru");
-        MailDTO mailDTO = new MailDTO(list);
-        kafkaTemplate.send("msg", mailDTO);
+//        ArrayList<String> list = new ArrayList<>();
+//        list.add("zinchen_ko@mail.ru");
+//        MailDTO mailDTO = new MailDTO(list);
+//        kafkaTemplate.send("msg", mailDTO);
     }
 }
