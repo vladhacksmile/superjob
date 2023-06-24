@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1yo42vd" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.12.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.19.0">
   <bpmn:collaboration id="Collaboration_1f23gsl">
-    <bpmn:participant id="Participant_1qbnt28" name="Обновление статуса на отклик" processRef="vacancy_response" />
+    <bpmn:participant id="Participant_1qbnt28" name="Обновление статуса на отклик" processRef="vacancy_change_status" />
   </bpmn:collaboration>
-  <bpmn:process id="vacancy_response" isExecutable="true">
+  <bpmn:process id="vacancy_change_status" isExecutable="true">
     <bpmn:sequenceFlow id="Flow_0x2vt5x" sourceRef="StartEvent_1" targetRef="Activity_1g4fmvl" />
     <bpmn:sequenceFlow id="Flow_06zpbw8" sourceRef="Activity_1g4fmvl" targetRef="Activity_1h921xe" />
     <bpmn:sequenceFlow id="Flow_0ssg1pn" sourceRef="Activity_1h921xe" targetRef="Activity_03s0i75" />
