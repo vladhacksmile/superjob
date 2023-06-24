@@ -39,7 +39,8 @@
       "id": "Field_1otnxi9",
       "key": "name",
       "validate": {
-        "required": true
+        "required": true,
+        "minLength": 2
       }
     },
     {
@@ -52,7 +53,8 @@
       "id": "Field_07a99le",
       "key": "surname",
       "validate": {
-        "required": true
+        "required": true,
+        "minLength": 2
       }
     },
     {
@@ -77,6 +79,9 @@
       "validate": {
         "min": 18,
         "required": true
+      },
+      "properties": {
+        "key1": "value"
       }
     },
     {
@@ -104,7 +109,7 @@
       "key": "username",
       "validate": {
         "required": true,
-        "minLength": 6
+        "minLength": 5
       }
     },
     {

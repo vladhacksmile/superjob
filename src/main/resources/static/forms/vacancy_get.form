@@ -2,13 +2,17 @@
   "components": [
     {
       "label": "Vacancy Id",
-      "type": "textfield",
+      "type": "number",
       "layout": {
-        "row": "Row_1w0snkg",
+        "row": "Row_0wy610k",
         "columns": null
       },
-      "id": "Field_1fe5vtj",
-      "key": "vacancyId"
+      "id": "Field_0vfigj2",
+      "key": "vacancyId",
+      "validate": {
+        "required": true,
+        "min": 1
+      }
     },
     {
       "label": "Token",
@@ -18,7 +22,10 @@
         "columns": null
       },
       "id": "Field_0c2imbs",
-      "key": "accessToken"
+      "key": "accessToken",
+      "validate": {
+        "required": true
+      }
     }
   ],
   "type": "default",

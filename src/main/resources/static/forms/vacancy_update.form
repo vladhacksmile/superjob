@@ -2,13 +2,17 @@
   "components": [
     {
       "label": "Vacancy Id",
-      "type": "textfield",
+      "type": "number",
       "layout": {
-        "row": "Row_0njnoij",
+        "row": "Row_0a2xon6",
         "columns": null
       },
-      "id": "Field_0tw9599",
-      "key": "vacancyId"
+      "id": "Field_14g7lil",
+      "key": "vacancyId",
+      "validate": {
+        "required": true,
+        "min": 1
+      }
     },
     {
       "label": "Name",
@@ -18,17 +22,10 @@
         "columns": null
       },
       "id": "Field_0s7a5ub",
-      "key": "name"
-    },
-    {
-      "label": "Salary",
-      "type": "textfield",
-      "layout": {
-        "row": "Row_0wtvjo0",
-        "columns": null
-      },
-      "id": "Field_1n8wj93",
-      "key": "salary"
+      "key": "name",
+      "validate": {
+        "required": true
+      }
     },
     {
       "label": "Information",
@@ -38,7 +35,24 @@
         "columns": null
       },
       "id": "Field_1a2n117",
-      "key": "information"
+      "key": "information",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "label": "Salary",
+      "type": "number",
+      "layout": {
+        "row": "Row_0wtvjo0",
+        "columns": 8
+      },
+      "id": "Field_0738hmc",
+      "key": "salary",
+      "validate": {
+        "required": true,
+        "min": 0
+      }
     },
     {
       "label": "Token",
@@ -48,7 +62,10 @@
         "columns": null
       },
       "id": "Field_1bypicm",
-      "key": "accessToken"
+      "key": "accessToken",
+      "validate": {
+        "required": true
+      }
     }
   ],
   "type": "default",

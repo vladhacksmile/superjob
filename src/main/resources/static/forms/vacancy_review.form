@@ -2,13 +2,17 @@
   "components": [
     {
       "label": "Vacancy Id",
-      "type": "textfield",
+      "type": "number",
       "layout": {
-        "row": "Row_12i2jpj",
+        "row": "Row_0s5wkmu",
         "columns": null
       },
-      "id": "Field_1mfu7ex",
-      "key": "vacancyId"
+      "id": "Field_04ue416",
+      "key": "vacancyId",
+      "validate": {
+        "required": true,
+        "min": 1
+      }
     },
     {
       "label": "Token",
