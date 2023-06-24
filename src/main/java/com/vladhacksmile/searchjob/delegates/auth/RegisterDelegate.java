@@ -26,7 +26,7 @@ public class RegisterDelegate implements JavaDelegate {
         try {
             MessageResponse messageResponse = userService.register(new RegisterRequest((delegateExecution.getVariable("role")).equals("EMPLOYER") ? UserRole.EMPLOYER : UserRole.APPLICANT, (String) delegateExecution.getVariable("name"),
                     (String) delegateExecution.getVariable("surname"), (String) delegateExecution.getVariable("patronymic"),
-                            Integer.parseInt((String) delegateExecution.getVariable("age")), (String) delegateExecution.getVariable("number"), (String) delegateExecution.getVariable("username"), (String) delegateExecution.getVariable("password")));
+                            Integer.parseInt(delegateExecution.getVariable("age").toString()), (String) delegateExecution.getVariable("number"), (String) delegateExecution.getVariable("username"), (String) delegateExecution.getVariable("password")));
 
             delegateExecution.setVariable("result", messageResponse.getMessage());
             System.out.println(delegateExecution.getCurrentActivityName());

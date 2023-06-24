@@ -47,11 +47,18 @@ public class VacancyChangeStatusDelegate implements JavaDelegate {
         try {
             User user = userService.authByToken(delegateExecution);
 
-            if (user.getRole() != UserRole.APPLICANT) throw new OperationNotPermitedException("Вы не соискатель");
+            if (user.getRole() != UserRole.EMPLOYER) throw new OperationNotPermitedException("Вы не работадатель");
 
             long resumeId = Long.parseLong(delegateExecution.getVariable("resumeId").toString());
             long vacancyId = Long.parseLong(delegateExecution.getVariable("vacancyId").toString());
-            ResumeStatus resumeStatus = (ResumeStatus) delegateExecution.getVariable("resumeStatus");
+            String statusString = (String) delegateExecution.getVariable("resumeStatus");
+
+            ResumeStatus resumeStatus = switch (statusString) {
+                case "INVITATION" -> ResumeStatus.INVITATION;
+                case "REJECT" -> ResumeStatus.REJECT;
+                default -> ResumeStatus.REVIEW;
+            };
+
 
             transactionTemplate.execute(status -> {
                     Vacancy vacancy = getVacancyById(vacancyId);

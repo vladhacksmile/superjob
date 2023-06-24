@@ -4,14 +4,13 @@
       "label": "Resume Id",
       "type": "number",
       "layout": {
-        "row": "Row_01z2zr5",
+        "row": "Row_1rme4as",
         "columns": null
       },
-      "id": "Field_1vtxw4j",
+      "id": "Field_0fhx2d4",
       "key": "resumeId",
       "validate": {
-        "required": true,
-        "min": 1
+        "required": false
       }
     },
     {
