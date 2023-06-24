@@ -1,7 +1,9 @@
 package com.vladhacksmile.searchjob.entities;
 
 import com.vladhacksmile.searchjob.enums.ResumeStatus;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -31,6 +33,16 @@ public class Response {
         this.resume = resume;
         this.vacancy = vacancy;
         this.resumeStatus = resumeStatus;
+    }
+
+    @Override
+    public String toString() {
+        return "Response{" +
+                "id=" + id +
+                ", resume=" + resume +
+                ", vacancy=" + vacancy +
+                ", resumeStatus=" + resumeStatus +
+                '}';
     }
 }
 
